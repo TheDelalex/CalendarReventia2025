@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <title>Case du Calendrier</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <style>
+    body { font-family: Arial, sans-serif; background: #fafafc; }
+    #contenu {
+      font-size: 1.25em;
+      max-width: 640px;
+      margin: 20vh auto 0 auto;
+      padding: 24px;
+      background: #fff;
+      border-radius: 12px;
+      box-shadow: 0 2px 24px rgba(0,0,0,0.07);
+      text-align: center;
+    }
+  </style>
+</head>
+<body>
+  <div id="contenu">Chargement...</div>
+  <script>
+    // Récupère le numéro du jour depuis l'URL
+    const params = new URLSearchParams(window.location.search);
+    const jour = params.get('jour');
+    // Chemin du fichier JSON (adapté à ta structure GitHub Pages : ex. './contenus.json')
+    fetch('contenus.json')
+      .then(response => {
+        if (!response.ok) throw new Error('Erreur de chargement du contenu !');
+        return response.json();
+      })
+      .then(contenus => {
+        const zone = document.getElementById('contenu');
+        // Si le jour existe, affiche le bon texte, sinon message d'erreur personnalisé
+        if (contenus[jour]) {
+          zone.innerHTML = contenus[jour];
+        } else {
+          zone.textContent = 'Aucune information pour ce jour.';
+        }
+      })
+      .catch(() => {
+        document.getElementById('contenu').textContent = 'Le calendrier n\'est pas accessible.';
+      });
+  </script>
+</body>
+</html>
+
