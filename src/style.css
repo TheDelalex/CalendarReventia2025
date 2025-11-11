@@ -1,106 +1,117 @@
 html, body {
-  min-height: 100vh;
   margin: 0;
   padding: 0;
+  height: 100vh;
   box-sizing: border-box;
 }
 
 body {
   display: flex;
   flex-direction: column;
+  height: 100vh;
   min-height: 100vh;
-  background: #f7fafc;
-  /* Résultat agréable, modifie si tu veux */
+  margin: 0;
+  padding: 0;
+  background-image: url("Images/background.png");
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-position: center center;
 }
 
 header {
-  padding: 24px 0 12px 0;
-  background: #fff;
   text-align: center;
-  font-size: 1.7em;
+  font-size: 2em;
   font-weight: 700;
-  color: #2b6cb0;
-  border-bottom: 2px solid #e2e8f0; /* Liseré optionnel */
+  padding: 32px 0 20px 0;
+  background: #fff transparent;
 }
-
 .container {
-  flex: 1; /* Prend tout l'espace restant sous le header */
+  flex: 1;
   display: flex;
-  justify-content: center;
   align-items: center;
+  justify-content: center;
 }
-
-table {
-  border-collapse: collapse;
+.calendar-grid {
+  display: grid;
+  width: 90vw;
+  max-width: 700px;
+  aspect-ratio: 1 / 1;
+  grid-template-columns: repeat(5, 1fr);
+  gap: 24px;
+}
+.calendar-cell {
   background: #fff;
-  margin: 0;
-  box-shadow: 0 2px 16px rgba(44,82,130,0.1);
-  overflow: hidden;
-}
-
-td {
-  width: 7vw;
-  height: 7vw;
-  min-width: 48px;
-  min-height: 48px;
-  max-width: 90px;
-  max-height: 90px;
-  border: 3px solid #222;
-  font-size: 1.2em;
-  text-align: center;
-  vertical-align: middle;
-  background: #fafafc;
+  border: 2px solid #222;
+  border-radius: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.1em;
+  font-weight: 650;
+  aspect-ratio: 1 / 1;
+  user-select: none;
   box-sizing: border-box;
-  font-weight: 600;
-  transition: background 0.2s;
+  background-image: url("Images/cadeau.png");
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
 }
 
-td:active {
-  background: #e2e8f0;
+.calendar-cell:active {
+    background-color: rgb(91, 91, 141);
 }
 
-/* Responsive : amélioration mobile */
-@media screen and (max-width: 600px) {
+.modal {
+  position: fixed;
+  top: 0; left: 0; right: 0; bottom: 0;
+  background: rgba(0,0,0,0.4);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 9999;
+}
+.modal-content {
+  background: #fff;
+  padding: 36px 24px;
+  border-radius: 10px;
+  max-width: 90vw;
+  min-width: 220px;
+  box-shadow: 0 4px 24px rgba(0,0,0,0.12);
+  text-align: center;
+  position: relative;
+}
+.modal-close {
+  position: absolute;
+  right: 18px;
+  top: 12px;
+  font-size: 2.2em;
+  cursor: pointer;
+}
+
+
+
+@media (max-width: 700px) {
   .container {
-    padding: 0 4vw;
+    align-items: flex-start;
+    justify-content: center;
   }
-  table {
-    width: 100%;
-    max-width: none;
+  .calendar-grid {
+    width: 98vw;
+    max-width: 370px;
+    aspect-ratio: unset;
+    grid-template-columns: repeat(2, 1fr); /* 2 cases sur chaque ligne */
+    gap: 5px; /* espacement entre cases */
+  }
+  .calendar-cell {
+    aspect-ratio: 1 / 1; /* chaque case est carrée */
+    height: auto;
     min-width: 0;
-    border-radius: 10px;
-    box-shadow: 0 1px 6px rgba(44,82,130,0.12);
+    min-height: 0;
+    border-radius: 8px;
+    font-size: 1em;
   }
-  tr, thead, tbody {
-    display: block;
-    width: 100%;
-  }
-  td {
-    display: block;
-    width: 100%;
-    max-width: none;
-    height: 52px;
-    min-height: 44px;
-    box-sizing: border-box;
-    margin: 0;
-    border-bottom: 3px solid #222;
-    border-left: 3px solid #222;
-    border-right: 3px solid #222;
-    border-top: none;
-    font-size: 1.35em;
-    border-radius: 0;
-  }
-  /* Empêche que les bords du calendrier collent trop à l'écran */
-  table {
-    margin-left: auto;
-    margin-right: auto;
-  }
-  td:first-child {
-    border-top: 3px solid #222;
-    border-radius: 8px 8px 0 0;
-  }
-  td:last-child {
-    border-bottom: 3px solid #222;
-    border-radius: 0 0 8px 8px;
+  header {
+    font-size: 1.25em;
+    padding: 20px 0 9px 0;
   }
 }
