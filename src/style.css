@@ -1,0 +1,106 @@
+html, body {
+  min-height: 100vh;
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+  background: #f7fafc;
+  /* Résultat agréable, modifie si tu veux */
+}
+
+header {
+  padding: 24px 0 12px 0;
+  background: #fff;
+  text-align: center;
+  font-size: 1.7em;
+  font-weight: 700;
+  color: #2b6cb0;
+  border-bottom: 2px solid #e2e8f0; /* Liseré optionnel */
+}
+
+.container {
+  flex: 1; /* Prend tout l'espace restant sous le header */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+table {
+  border-collapse: collapse;
+  background: #fff;
+  margin: 0;
+  box-shadow: 0 2px 16px rgba(44,82,130,0.1);
+  overflow: hidden;
+}
+
+td {
+  width: 7vw;
+  height: 7vw;
+  min-width: 48px;
+  min-height: 48px;
+  max-width: 90px;
+  max-height: 90px;
+  border: 3px solid #222;
+  font-size: 1.2em;
+  text-align: center;
+  vertical-align: middle;
+  background: #fafafc;
+  box-sizing: border-box;
+  font-weight: 600;
+  transition: background 0.2s;
+}
+
+td:active {
+  background: #e2e8f0;
+}
+
+/* Responsive : amélioration mobile */
+@media screen and (max-width: 600px) {
+  .container {
+    padding: 0 4vw;
+  }
+  table {
+    width: 100%;
+    max-width: none;
+    min-width: 0;
+    border-radius: 10px;
+    box-shadow: 0 1px 6px rgba(44,82,130,0.12);
+  }
+  tr, thead, tbody {
+    display: block;
+    width: 100%;
+  }
+  td {
+    display: block;
+    width: 100%;
+    max-width: none;
+    height: 52px;
+    min-height: 44px;
+    box-sizing: border-box;
+    margin: 0;
+    border-bottom: 3px solid #222;
+    border-left: 3px solid #222;
+    border-right: 3px solid #222;
+    border-top: none;
+    font-size: 1.35em;
+    border-radius: 0;
+  }
+  /* Empêche que les bords du calendrier collent trop à l'écran */
+  table {
+    margin-left: auto;
+    margin-right: auto;
+  }
+  td:first-child {
+    border-top: 3px solid #222;
+    border-radius: 8px 8px 0 0;
+  }
+  td:last-child {
+    border-bottom: 3px solid #222;
+    border-radius: 0 0 8px 8px;
+  }
+}
