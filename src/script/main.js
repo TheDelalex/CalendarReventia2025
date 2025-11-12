@@ -39,4 +39,14 @@ window.addEventListener('DOMContentLoaded', function() {
       // Si la case est "locked", on bloque tout (pointerEvents déjà à "none")
     });
   });
+    const resetBtn = document.getElementById('reset-ls');
+    if (resetBtn) {
+        resetBtn.addEventListener('click', function(e) {
+        e.preventDefault();
+        localStorage.removeItem('calendrierOuvert');
+        // Optionnel : refresh page pour voir le changement
+        window.location.reload();
+    });
+  }
 });
+

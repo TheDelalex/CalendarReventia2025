@@ -16,33 +16,61 @@
       box-shadow: 0 2px 24px rgba(0,0,0,0.07);
       text-align: center;
     }
+    #avertissement {
+      display: none;
+      color: #B00202;
+      font-size: 1.5em;
+      font-weight: bold;
+      text-align: center;
+      margin: 19vh auto 0 auto;
+      max-width: 640px;
+      background: #fff9f9;
+      border-radius: 12px;
+      padding: 24px;
+      box-shadow: 0 2px 24px rgba(0,0,0,0.04);
+    }
   </style>
 </head>
 <body>
-  <div id="contenu">Chargement...</div>
+  <div id="contenu"></div>
+  <div id="avertissement">
+    🎁 Ce cadeau ne sera disponible que le <span id="dateJour"></span> décembre !<br>
+    Reviens à la bonne date 😉
+  </div>
   <script>
     // Récupère le numéro du jour depuis l'URL
     const params = new URLSearchParams(window.location.search);
-    const jour = params.get('jour');
-    // Chemin du fichier JSON (adapté à ta structure GitHub Pages : ex. './contenus.json')
-    fetch('contenus.json')
-      .then(response => {
-        if (!response.ok) throw new Error('Erreur de chargement du contenu !');
-        return response.json();
-      })
-      .then(contenus => {
-        const zone = document.getElementById('contenu');
-        // Si le jour existe, affiche le bon texte, sinon message d'erreur personnalisé
-        if (contenus[jour]) {
-          zone.innerHTML = contenus[jour];
-        } else {
-          zone.textContent = 'Aucune information pour ce jour.';
-        }
-      })
-      .catch(() => {
-        document.getElementById('contenu').textContent = 'Le calendrier n\'est pas accessible.';
-      });
+    const jour = Number(params.get('jour'));
+    const today = new Date();
+    // === Astuce pour test : décommente la ligne suivante pour simuler une date ==== 
+    today.setMonth(11); today.setDate(7); // 0=jan, 11=déc
+
+    // Vérifie si la case est "ouverte" à la bonne date
+    const estOuvert = (today.getMonth() + 1 > 12) || (today.getMonth() + 1 === 12 && today.getDate() >= jour);
+
+    if (!estOuvert) {
+      document.getElementById('contenu').style.display = "none";
+      document.getElementById('avertissement').style.display = "block";
+      document.getElementById('dateJour').textContent = jour || "?";
+    } else {
+      // Affichage du contenu seulement au bon jour
+      fetch('contenus.json')
+        .then(response => {
+          if (!response.ok) throw new Error('Erreur de chargement du contenu !');
+          return response.json();
+        })
+        .then(contenus => {
+          const zone = document.getElementById('contenu');
+          if (contenus[jour]) {
+            zone.innerHTML = contenus[jour];
+          } else {
+            zone.textContent = 'Aucune information pour ce jour.';
+          }
+        })
+        .catch(() => {
+          document.getElementById('contenu').textContent = "Le calendrier n'est pas accessible.";
+        });
+    }
   </script>
 </body>
 </html>
-
