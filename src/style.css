@@ -23,7 +23,7 @@ header {
   font-size: 2em;
   font-weight: 700;
   padding: 32px 0 20px 0;
-  background: #fff transparent;
+  background-color: transparent;
 }
 
 a {
@@ -54,8 +54,6 @@ a {
   display: flex;
   align-items: center;
   justify-content: center;
-  font-size: 1.1em;
-  font-weight: 650;
   aspect-ratio: 1 / 1;
   user-select: none;
   box-sizing: border-box;
@@ -63,10 +61,15 @@ a {
   background-size: cover;
   background-position: center;
   background-repeat: no-repeat;
+  transition: background-image 0.3s;
 }
 
 .calendar-cell:active {
     background-color: rgb(91, 91, 141);
+}
+
+.calendar-cell.ouvert {
+    background-image: url("Images/cadeau_ouvert.png");
 }
 
 .modal {
