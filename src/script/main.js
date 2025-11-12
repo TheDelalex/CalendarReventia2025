@@ -17,4 +17,8 @@ window.addEventListener('DOMContentLoaded', function() {
       // Le lien s'ouvre normalement
     });
   });
+  document.getElementById('reset-ls').addEventListener('click', function() {
+  localStorage.removeItem('calendrierOuvert'); // Adapte le nom à ta clé si nécessaire
+  window.location.reload();
+});
 });
