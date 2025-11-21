@@ -9,11 +9,13 @@
     #contenu {
       font-size: 1.25em;
       max-width: 640px;
-      margin: 20vh auto 0 auto;
+      margin: 2vh auto 0 auto;
       padding: 24px;
       background: #fff;
       border-radius: 12px;
       box-shadow: 0 2px 24px rgba(0,0,0,0.07);
+    }
+    h1 {
       text-align: center;
     }
     #avertissement {
@@ -43,7 +45,7 @@
     const jour = Number(params.get('jour'));
     const today = new Date();
     // === Astuce pour test : décommente la ligne suivante pour simuler une date ==== 
-    today.setMonth(11); today.setDate(7); // 0=jan, 11=déc
+    today.setMonth(11); today.setDate(6); // 0=jan, 11=déc
 
     // Vérifie si la case est "ouverte" à la bonne date
     const estOuvert = (today.getMonth() + 1 > 12) || (today.getMonth() + 1 === 12 && today.getDate() >= jour);
