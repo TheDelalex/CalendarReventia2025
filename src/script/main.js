@@ -1,4 +1,5 @@
 window.addEventListener("DOMContentLoaded", function () {
+  this.alert("Bonjour");
   const ouverts = JSON.parse(localStorage.getItem("calendrierOuvert") || "{}");
   const today = new Date();
   // Date de test
