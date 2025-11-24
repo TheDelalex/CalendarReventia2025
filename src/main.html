@@ -8,6 +8,16 @@
   <script src="script/main.js"></script>
 </head>
 <body>
+  <div id="popup-bienvenue">
+    <div id="popup2">
+      <img src="Images/banniere.png" class="cadre-popup"/>
+      <div id="texte-popup">
+        <h1>Bienvenue sur le Calendrier de l'avent de Reventia</h1>
+        <p>Chaque jour, une case devient accessible, et derrière elle des histoires et des surprised !</p>
+        <button id="close-popup">Démarrer</button>
+      </div>
+    </div>
+  </div>
   <div class="container">
     <div class="calendar-grid">
       <a href="case.html?jour=1" class="calendar-link" data-day="1"><div class="calendar-cell"></div></a>
@@ -36,5 +46,13 @@
       <a href="case.html?jour=24" class="calendar-link" data-day="24"><div class="calendar-cell"></div></a>
     </div>
   </div>
+  <script>
+    // Charger l'image de fond "en dernier"
+    var img = new Image();
+    img.src = "Images/background.png";
+    img.onload = function () {
+      document.body.style.backgroundImage = "url('Images/background.png')";
+    };
+  </script>
 </body>
 </html>

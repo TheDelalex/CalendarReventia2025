@@ -1,5 +1,4 @@
 window.addEventListener("DOMContentLoaded", function () {
-  this.alert("Bonjour");
   const ouverts = JSON.parse(localStorage.getItem("calendrierOuvert") || "{}");
   const today = new Date();
   // Date de test
@@ -58,38 +57,15 @@ window.addEventListener("DOMContentLoaded", function () {
       }
     });
   });
-
-  // RESET bouton
-  const resetBtn = document.getElementById("reset-ls");
-  if (resetBtn) {
-    resetBtn.addEventListener("click", function (e) {
-      e.preventDefault();
-      localStorage.removeItem("calendrierOuvert");
-      window.location.reload();
+  var popup = document.getElementById("popup-bienvenue");
+  var closeBtn = document.getElementById("close-popup");
+  if (popup && closeBtn) {
+    closeBtn.addEventListener("click", function () {
+      popup.style.display = "none";
+    });
+    // (optionnel) : fermer aussi avec un clic sur le fond noir
+    popup.addEventListener("click", function (e) {
+      if (e.target === popup) popup.style.display = "none";
     });
   }
-
-  // Affichage de la date (.affiche_date)
-  const mois = [
-    "janvier",
-    "février",
-    "mars",
-    "avril",
-    "mai",
-    "juin",
-    "juillet",
-    "août",
-    "septembre",
-    "octobre",
-    "novembre",
-    "décembre",
-  ];
-  const auj = new Date();
-  auj.setMonth(11);
-  auj.setDate(6);
-  const texte =
-    auj.getDate() + " " + mois[auj.getMonth()] + " " + auj.getFullYear();
-  document.querySelectorAll(".affiche_date").forEach((e) => {
-    e.textContent = texte;
-  });
 });
