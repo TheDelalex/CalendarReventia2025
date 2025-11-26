@@ -1,4 +1,6 @@
 *, *::before, *::after { box-sizing: border-box; }
+
+/* Global Styles */
 html, body {
   margin: 0;
   padding: 0;
@@ -22,20 +24,8 @@ header {
   position: relative;
   z-index: 1000;
 }
-.banner {
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100vw;
-  height: 120px; /* hauteur de la bannière */
-  background-image: url("Images/banniere.png");
-  background-repeat: no-repeat;
-  background-size: cover; /* garder la qualité */
-  background-position: center;
-  z-index: 1002; /* passer au-dessus des cases ET du header */
-  pointer-events: none; /* optionnel, évite de bloquer les clics */
-}
 
+/* Calendar Styles */
 .container {
   flex: 1; display: flex;
   align-items: stretch; justify-content: center;
@@ -45,7 +35,8 @@ header {
 .calendar-grid {
   position:relative;
   display: grid;
-  width: 100vw; height: 100%;
+  width: 100vw; 
+  height: 100%;
   grid-template-columns: repeat(8, 1fr);
   grid-template-rows: repeat(3, 1fr);
   background: transparent;
@@ -63,12 +54,12 @@ header {
   display: block;
 }
 .calendar-cell.ouvert {
-  background: transparent !important;
-  background-image: none !important;
+  opacity: 0 !important;
   pointer-events: none;
   box-shadow: none;
 }
 
+/* Popup Styles */
 #popup-bienvenue {
   position: fixed;
   top: 0; left: 0; right: 0; bottom: 0;
@@ -135,17 +126,4 @@ header {
 #close-popup:active {
   box-shadow: #422800 1px 1px 0 0;
   transform: translate(2px, 2px);
-}
-
-
-#reset-ls {
-  margin-left: 24px;
-  padding: 6px 16px;
-  border-radius: 5px;
-  background: #f23;
-  color: #fff;
-  border: none;
-  font-size: 1em;
-  cursor: pointer;
-  font-weight: bold;
 }
