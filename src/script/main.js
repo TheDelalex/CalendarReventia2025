@@ -9,25 +9,39 @@ window.addEventListener("DOMContentLoaded", function () {
   const currentMonth = today.getMonth() + 1;
   const currentDay = today.getDate();
 
-  document.querySelectorAll(".calendar-cell").forEach((cell) => {
+  const cells = this.document.querySelectorAll(".calendar-cell");
+  const totalCells = cells.length;
+  let loadedCases = 0;
+
+  function onCaseLoaded() {
+    loadedCases++;
+    if (loadedCases >= totalCells) {
+      const bgImg = new Image();
+      bgImg.src = "Images/background.png";
+      bgImg.onload = function () {
+        document.body.style.backgroundImage = "url('Images/background.png')";
+      };
+    }
+  }
+
+  cells.forEach((cell) => {
     const day = Number(cell.parentElement.getAttribute("data-day"));
 
     // Mettre pour chaque case un background image de la forme Images/Case/caseX.png
     // Et si l'image n'existe pas, mettre l'image contenu à Images/case.png
     const img = new Image();
     img.src = `Images/Case/case${day}.png`;
-
     img.onload = function () {
       cell.src = img.src; // on met l'image spécifique
+      onCaseLoaded();
     };
-
     img.onerror = function () {
       cell.src = "Images/case.png"; // fallback si l'image n'existe pas
+      onCaseLoaded();
     };
 
     // Une case n'est accessible (côté INDEX) que si elle est <= jour courant ET en décembre
     const accessible = currentMonth === 12 && day <= currentDay;
-
     if (accessible) {
       // Case ouverte : style après clic
       if (ouverts[day]) {
@@ -73,4 +87,9 @@ window.addEventListener("DOMContentLoaded", function () {
       if (e.target === popup) popup.style.display = "none";
     });
   }
+  var img = new Image();
+    img.src = "Images/background.png";
+    img.onload = function () {
+      document.body.style.backgroundImage = "url('Images/background.png')";
+    };
 });
