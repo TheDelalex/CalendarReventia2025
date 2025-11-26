@@ -16,13 +16,12 @@ body {
   background-position: center center;
   position:relative
 }
-header {
-  text-align: center;
-  font-size: 2em; font-weight: 700;
-  background: transparent;
+#bg-img {
+  position: fixed;
+  inset: 0;
   width: 100%;
-  position: relative;
-  z-index: 1000;
+  height: 100%;
+  pointer-events: none;
 }
 
 /* Calendar Styles */
