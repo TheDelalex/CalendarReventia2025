@@ -19,7 +19,7 @@ window.addEventListener("DOMContentLoaded", function () {
       const bgImg = new Image();
       bgImg.src = "Images/background.png";
       bgImg.onload = function () {
-        this.document.getElementById("bg-img").src = bgImg.src;
+        document.getElementById("bg-img").src = bgImg.src;
       };
     }
   }
