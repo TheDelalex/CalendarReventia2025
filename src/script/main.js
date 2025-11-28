@@ -87,9 +87,4 @@ window.addEventListener("DOMContentLoaded", function () {
       if (e.target === popup) popup.style.display = "none";
     });
   }
-  var img = new Image();
-    img.src = "Images/background.png";
-    img.onload = function () {
-      document.body.style.backgroundImage = "url('Images/background.png')";
-    };
 });
