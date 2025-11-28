@@ -1,5 +1,13 @@
 *, *::before, *::after { box-sizing: border-box; }
 
+/* Font */
+@font-face {
+  font-family: "Lostar";
+  src: url("font/Lostar.ttf") format("truetype");
+  font-weight: normal;
+  font-style: normal;
+}
+
 /* Global Styles */
 html, body {
   margin: 0;
@@ -69,6 +77,13 @@ body {
   z-index: 2000;
 }
 
+.popup-title {
+  font-family: "Lostar", Arial, Helvetica, sans-serif;
+  font-weight: normal;
+  font-size: xxx-large;
+  color: gold;
+}
+
 #popup2 {
   position: relative;
   display: inline-block;
@@ -125,4 +140,10 @@ body {
 #close-popup:active {
   box-shadow: #422800 1px 1px 0 0;
   transform: translate(2px, 2px);
+}
+
+/* Reset button */
+.btn-reset {
+  position:absolute;
+  z-index: 100000;
 }

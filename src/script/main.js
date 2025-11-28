@@ -9,6 +9,8 @@ window.addEventListener("DOMContentLoaded", function () {
   const currentMonth = today.getMonth() + 1;
   const currentDay = today.getDate();
 
+  const button = this.document.querySelector(".btn-reset");
+
   const cells = this.document.querySelectorAll(".calendar-cell");
   const totalCells = cells.length;
   let loadedCases = 0;
@@ -82,9 +84,54 @@ window.addEventListener("DOMContentLoaded", function () {
     closeBtn.addEventListener("click", function () {
       popup.style.display = "none";
     });
-    // (optionnel) : fermer aussi avec un clic sur le fond noir
+    // fermer aussi avec un clic sur le fond noir
     popup.addEventListener("click", function (e) {
       if (e.target === popup) popup.style.display = "none";
     });
   }
+
+  button.addEventListener("click", function () {
+    localStorage.removeItem('calendrierOuvert');
+    window.location.reload();
+  })
+
+  const btnFermer = document.getElementById("close-popup");
+  const chkNePlus = document.getElementById("popup-ne-plus-afficher");
+
+  // Si l'utilisateur a déjà coché "ne plus afficher", on ne montre pas la popup
+  if (localStorage.getItem("popupBienvenueMasquee") === "1") {
+    if (popup) popup.style.display = "none";
+  }
+
+  if (popup && btnFermer && chkNePlus) {
+    btnFermer.addEventListener("click", function () {
+      if (chkNePlus.checked) {
+        localStorage.setItem("popupBienvenueMasquee", "1");
+      }
+      popup.style.display = "none";
+    });
+  }
+
+  var mauvaisClics = 0;
+  const SEUIL = 10;
+  document.addEventListener("click", function (e) {
+    const cell = e.target.closest(".calendar-cell");
+
+    // Si on clique sur une case:
+    if (cell) {
+      // case accessible ? -> pas un mauvais clic
+      if (!cell.classList.contains("locked")) return;
+
+      // case verrouillée -> mauvais clic
+      mauvaisClics++;
+    } else {
+      // Clic ailleurs que sur une case -> mauvais clic
+      mauvaisClics++;
+    }
+
+    if (mauvaisClics >= SEUIL) {
+      alert("Arrête de cliquer ailleurs");
+      mauvaisClics = 0; // on reset le compteur
+    }
+  }, true);
 });

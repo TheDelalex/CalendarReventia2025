@@ -8,13 +8,19 @@
   <script src="script/main.js"></script>
 </head>
 <body>
+  <button class="btn-reset">RESET</button>
   <div id="popup-bienvenue">
     <div id="popup2">
       <img src="Images/banniere.png" class="cadre-popup"/>
       <div id="texte-popup">
-        <h1>Bienvenue sur le Calendrier de l'avent de Reventia</h1>
-        <p>Chaque jour, une case devient accessible, et derrière elle des histoires et des surprised !</p>
+        <h1 class="popup-title">Bienvenue sur le Calendrier de l'avent de Reventia</h1>
+        <p>Chaque jour, une case devient accessible, et derrière elle des histoires et des surprises !</p>
+        <p>Merci à Blanche et Aurélien pour les illustrations. Antoine pour chaque petite surprise contenues dans chaque case et moi-même, Alex, pour ce site web !</p>
         <button id="close-popup">Démarrer</button>
+        <label style="display:block; margin-top:16px; font-size:0.9em;">
+          <input type="checkbox" id="popup-ne-plus-afficher">
+          Ne plus afficher ce message
+        </label>
       </div>
     </div>
   </div>
