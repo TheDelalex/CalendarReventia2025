@@ -10,6 +10,7 @@ window.addEventListener("DOMContentLoaded", function () {
   const currentDay = today.getDate();
 
   const button = this.document.querySelector(".btn-reset");
+  const switchBtn = this.document.querySelector(".btn-switch");
 
   const cells = this.document.querySelectorAll(".calendar-cell");
   const totalCells = cells.length;
@@ -70,13 +71,25 @@ window.addEventListener("DOMContentLoaded", function () {
       localStorage.setItem("calendrierOuvert", JSON.stringify(ouverts));
 
       // Effacer l'image (version simple)
-      cell.src = ""; // l'img disparaît
+      cell.classList.add("ouvert"); // l'img disparaît
 
       // Ouvrir la page du jour dans un nouvel onglet
       window.open(cell.parentElement.href, "_blank");
       e.preventDefault();
     });
   });
+
+  switchBtn.addEventListener("click", function () {
+    cells.forEach((cell) => {
+      if (!cell.classList.contains("show-opened") && cell.classList.contains("ouvert")) {
+        cell.classList.add("show-opened");
+      }
+      else if (cell.classList.contains("show-opened") && cell.classList.contains("ouvert")) {
+        cell.classList.remove("show-opened");
+      }
+    })
+  });
+
 
   var popup = document.getElementById("popup-bienvenue");
   var closeBtn = document.getElementById("close-popup");
@@ -92,6 +105,7 @@ window.addEventListener("DOMContentLoaded", function () {
 
   button.addEventListener("click", function () {
     localStorage.removeItem('calendrierOuvert');
+    localStorage.removeItem('popupBienvenueMasquee');
     window.location.reload();
   })
 
@@ -112,26 +126,50 @@ window.addEventListener("DOMContentLoaded", function () {
     });
   }
 
-  var mauvaisClics = 0;
-  const SEUIL = 10;
-  document.addEventListener("click", function (e) {
-    const cell = e.target.closest(".calendar-cell");
+  const wrapper = document.getElementById("page-wrapper");
+  // Affichage / masquage initial selon localStorage
+  if (localStorage.getItem("popupBienvenueMasquee") === "1") {
+    if (popup) popup.style.display = "none";
+  } else {
+    if (popup && wrapper) wrapper.classList.add("blur-background");
+  }
 
-    // Si on clique sur une case:
-    if (cell) {
-      // case accessible ? -> pas un mauvais clic
-      if (!cell.classList.contains("locked")) return;
+  if (popup && btnFermer && wrapper) {
+    btnFermer.addEventListener("click", function () {
+      if (chkNePlus && chkNePlus.checked) {
+        localStorage.setItem("popupBienvenueMasquee", "1");
+      }
+      popup.style.display = "none";
+      wrapper.classList.remove("blur-background");
+    });
+  }
 
-      // case verrouillée -> mauvais clic
-      mauvaisClics++;
-    } else {
-      // Clic ailleurs que sur une case -> mauvais clic
-      mauvaisClics++;
-    }
+  if (switchBtn && wrapper) {
+    switchBtn.addEventListener("click", function () {
+      wrapper.classList.toggle("show-opened");
+    });
+  }
 
-    if (mauvaisClics >= SEUIL) {
-      alert("Arrête de cliquer ailleurs");
-      mauvaisClics = 0; // on reset le compteur
-    }
-  }, true);
+  // var mauvaisClics = 0;
+  // const SEUIL = 10;
+  // document.addEventListener("click", function (e) {
+  //   const cell = e.target.closest(".calendar-cell");
+
+  //   // Si on clique sur une case:
+  //   if (cell) {
+  //     // case accessible ? -> pas un mauvais clic
+  //     if (!cell.classList.contains("locked")) return;
+
+  //     // case verrouillée -> mauvais clic
+  //     mauvaisClics++;
+  //   } else {
+  //     // Clic ailleurs que sur une case -> mauvais clic
+  //     mauvaisClics++;
+  //   }
+
+  //   if (mauvaisClics >= SEUIL) {
+  //     alert("Arrête de cliquer ailleurs");
+  //     mauvaisClics = 0; // on reset le compteur
+  //   }
+  // }, true);
 });

@@ -1,57 +1,74 @@
 <!DOCTYPE html>
 <html lang="fr">
+
 <head>
-  <meta charset="UTF-8">
+  <meta charset="UTF-8" />
   <title>Calendrier de l'avent 2025</title>
-  <link rel="stylesheet" href="style.css">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="style.css" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <script src="script/main.js"></script>
 </head>
+
 <body>
+  <div class="btn">
   <button class="btn-reset">RESET</button>
+  <button class="btn-switch">SWITCH</button>
+  </div>
   <div id="popup-bienvenue">
     <div id="popup2">
-      <img src="Images/banniere.png" class="cadre-popup"/>
+      <img src="Images/banniere.png" class="cadre-popup" />
       <div id="texte-popup">
-        <h1 class="popup-title">Bienvenue sur le Calendrier de l'avent de Reventia</h1>
-        <p>Chaque jour, une case devient accessible, et derrière elle des histoires et des surprises !</p>
-        <p>Merci à Blanche et Aurélien pour les illustrations. Antoine pour chaque petite surprise contenues dans chaque case et moi-même, Alex, pour ce site web !</p>
+        <h1 class="popup-title">
+          Bienvenue sur le Calendrier de l'avent de Reventia
+        </h1>
+        <p>
+          Chaque jour, une case devient accessible, et derrière elle des
+          histoires et des surprises !
+        </p>
+        <p>
+          Merci à Blanche et Aurélien pour les illustrations. Antoine pour
+          chaque petite surprise contenues dans chaque case <br />
+          et moi-même, Alex, pour ce site web !
+        </p>
         <button id="close-popup">Démarrer</button>
-        <label style="display:block; margin-top:16px; font-size:0.9em;">
-          <input type="checkbox" id="popup-ne-plus-afficher">
+        <label style="display: block; margin-top: 16px; font-size: 0.9em">
+          <input type="checkbox" id="popup-ne-plus-afficher" />
           Ne plus afficher ce message
         </label>
       </div>
     </div>
   </div>
-  <div class="container">
-    <div class="calendar-grid">
-      <a href="case.html?jour=1" class="calendar-link" data-day="1"><img class="calendar-cell"></a>
-      <a href="case.html?jour=2" class="calendar-link" data-day="2"><img class="calendar-cell"></a>
-      <a href="case.html?jour=3" class="calendar-link" data-day="3"><img class="calendar-cell"></a>
-      <a href="case.html?jour=4" class="calendar-link" data-day="4"><img class="calendar-cell"></a>
-      <a href="case.html?jour=5" class="calendar-link" data-day="5"><img class="calendar-cell"></a>
-      <a href="case.html?jour=6" class="calendar-link" data-day="6"><img class="calendar-cell"></a>
-      <a href="case.html?jour=7" class="calendar-link" data-day="7"><img class="calendar-cell"></a>
-      <a href="case.html?jour=8" class="calendar-link" data-day="8"><img class="calendar-cell"></a>
-      <a href="case.html?jour=9" class="calendar-link" data-day="9"><img class="calendar-cell"></a>
-      <a href="case.html?jour=10" class="calendar-link" data-day="10"><img class="calendar-cell"></a>
-      <a href="case.html?jour=11" class="calendar-link" data-day="11"><img class="calendar-cell"></a>
-      <a href="case.html?jour=12" class="calendar-link" data-day="12"><img class="calendar-cell"></a>
-      <a href="case.html?jour=13" class="calendar-link" data-day="13"><img class="calendar-cell"></a>
-      <a href="case.html?jour=14" class="calendar-link" data-day="14"><img class="calendar-cell"></a>
-      <a href="case.html?jour=15" class="calendar-link" data-day="15"><img class="calendar-cell"></a>
-      <a href="case.html?jour=16" class="calendar-link" data-day="16"><img class="calendar-cell"></a>
-      <a href="case.html?jour=17" class="calendar-link" data-day="17"><img class="calendar-cell"></a>
-      <a href="case.html?jour=18" class="calendar-link" data-day="18"><img class="calendar-cell"></a>
-      <a href="case.html?jour=19" class="calendar-link" data-day="19"><img class="calendar-cell"></a>
-      <a href="case.html?jour=20" class="calendar-link" data-day="20"><img class="calendar-cell"></a>
-      <a href="case.html?jour=21" class="calendar-link" data-day="21"><img class="calendar-cell"></a>
-      <a href="case.html?jour=22" class="calendar-link" data-day="22"><img class="calendar-cell"></a>
-      <a href="case.html?jour=23" class="calendar-link" data-day="23"><img class="calendar-cell"></a>
-      <a href="case.html?jour=24" class="calendar-link" data-day="24"><img class="calendar-cell"></a>
+  <div id="page-wrapper">
+    <div class="container">
+      <div class="calendar-grid">
+        <a href="case.html?jour=1" class="calendar-link" data-day="1"><img class="calendar-cell" /></a>
+        <a href="case.html?jour=2" class="calendar-link" data-day="2"><img class="calendar-cell" /></a>
+        <a href="case.html?jour=3" class="calendar-link" data-day="3"><img class="calendar-cell" /></a>
+        <a href="case.html?jour=4" class="calendar-link" data-day="4"><img class="calendar-cell" /></a>
+        <a href="case.html?jour=5" class="calendar-link" data-day="5"><img class="calendar-cell" /></a>
+        <a href="case.html?jour=6" class="calendar-link" data-day="6"><img class="calendar-cell" /></a>
+        <a href="case.html?jour=7" class="calendar-link" data-day="7"><img class="calendar-cell" /></a>
+        <a href="case.html?jour=8" class="calendar-link" data-day="8"><img class="calendar-cell" /></a>
+        <a href="case.html?jour=9" class="calendar-link" data-day="9"><img class="calendar-cell" /></a>
+        <a href="case.html?jour=10" class="calendar-link" data-day="10"><img class="calendar-cell" /></a>
+        <a href="case.html?jour=11" class="calendar-link" data-day="11"><img class="calendar-cell" /></a>
+        <a href="case.html?jour=12" class="calendar-link" data-day="12"><img class="calendar-cell" /></a>
+        <a href="case.html?jour=13" class="calendar-link" data-day="13"><img class="calendar-cell" /></a>
+        <a href="case.html?jour=14" class="calendar-link" data-day="14"><img class="calendar-cell" /></a>
+        <a href="case.html?jour=15" class="calendar-link" data-day="15"><img class="calendar-cell" /></a>
+        <a href="case.html?jour=16" class="calendar-link" data-day="16"><img class="calendar-cell" /></a>
+        <a href="case.html?jour=17" class="calendar-link" data-day="17"><img class="calendar-cell" /></a>
+        <a href="case.html?jour=18" class="calendar-link" data-day="18"><img class="calendar-cell" /></a>
+        <a href="case.html?jour=19" class="calendar-link" data-day="19"><img class="calendar-cell" /></a>
+        <a href="case.html?jour=20" class="calendar-link" data-day="20"><img class="calendar-cell" /></a>
+        <a href="case.html?jour=21" class="calendar-link" data-day="21"><img class="calendar-cell" /></a>
+        <a href="case.html?jour=22" class="calendar-link" data-day="22"><img class="calendar-cell" /></a>
+        <a href="case.html?jour=23" class="calendar-link" data-day="23"><img class="calendar-cell" /></a>
+        <a href="case.html?jour=24" class="calendar-link" data-day="24"><img class="calendar-cell" /></a>
+      </div>
     </div>
+    <img id="bg-img" alt="" aria-hidden="true" />
   </div>
-  <img id="bg-img" alt="" aria-hidden="true">
 </body>
+
 </html>

@@ -1,4 +1,14 @@
 *, *::before, *::after { box-sizing: border-box; }
+#page-wrapper {
+  display: flex;           /* ou block, selon ton besoin */
+  flex-direction: column;
+  min-height: 100vh;
+  transition: filter 0.3s ease;
+}
+
+#page-wrapper.blur-background {
+  filter: blur(10px);
+}
 
 /* Font */
 @font-face {
@@ -61,12 +71,25 @@ body {
   display: block;
 }
 .calendar-cell.ouvert {
-  opacity: 0 !important;
+  opacity: 0;
   pointer-events: none;
   box-shadow: none;
 }
 
+.show-opened .calendar-cell.ouvert {
+  opacity: 1 !important;
+  pointer-events: auto;
+}
+
+.calendar-cell.locked {
+  background-color: grey;
+}
+
 /* Popup Styles */
+#texte-popup {
+  font-size: large;
+}
+
 #popup-bienvenue {
   position: fixed;
   top: 0; left: 0; right: 0; bottom: 0;
@@ -101,7 +124,7 @@ body {
 #texte-popup {
   position: relative;
   z-index: 2;
-  padding: 12em 12em 12em 12em; /* adapté au motif doré */
+  padding: 20em 12em 18em 12em; /* adapté au motif doré */
   color: #fff;
   word-break: break-word;
 }
@@ -143,7 +166,7 @@ body {
 }
 
 /* Reset button */
-.btn-reset {
+.btn {
   position:absolute;
   z-index: 100000;
 }
