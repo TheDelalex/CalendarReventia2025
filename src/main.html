@@ -27,25 +27,40 @@
   z-index: 5000;
   opacity: 0.85;
 ">
+            <button id="music-toggle" style="
+    border:none;
+    background:transparent;
+    color:white;
+    cursor:pointer;
+    font-size:0.9em;
+  ">⏵</button>
       <span style="color:white;font-size:0.8em;">🎵</span>
-      <input id="volume-range" type="range" min="0" max="1" step="0.01" value="0.1">
+      <input id="volume-range" type="range" min="0" max="1" step="0.01" value="0.0">
+      
     </div>
   </div>
   <div id="popup-bienvenue">
     <div id="popup2">
-      <img src="Images/banniere.png" class="cadre-popup" />
+      <img src="Images/banniere.png" class="cadre-popup"/>
       <div id="texte-popup">
         <h1 class="popup-title">
           Bienvenue sur le Calendrier de l'avent de Reventia
         </h1>
+        <div class="popup-guide">
+        <h2 class="popup-title">Comment ça marche ?</h2>
         <p>
-          Chaque jour, une case devient accessible, et derrière elle des
-          histoires et des surprises !
+          → Chaque jour, une case se débloque ! En cliquant dessus, un onglet s'ouvre et la case disparait.
         </p>
         <p>
-          Vous pouvez réafficher les cases déjà ouverte en utilisant le bouton situé en haut de l'écran
-          et une gestion du sons sera toujours accessible en bas à droite de votre écran
+          → Des musiques accompagne chaque case (et même ce menu !).
         </p>
+        <p>
+          → Une barre de volume est disponible en bas à droite, avec une possibilité de mettre en pause !
+        </p>
+        <p>
+          → Enfin, en haut de l'écran se trouve un bouton pour réafficher les cases ayant disparues si vous souhaitez les retrouver.
+        </p>
+        </div>
         <p>
           Merci à Blanche et Aurélien pour les illustrations. Antoine pour
           chaque petite surprise contenues dans chaque case <br />

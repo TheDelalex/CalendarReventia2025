@@ -86,7 +86,23 @@ body {
 }
 
 /* Popup Styles */
-#texte-popup {
+.popup-guide {
+  border: 5px solid #370f0b;
+  border-style: ridge;
+  border-radius: 15px;
+  align-items: left;
+}
+
+.popup-guide h2 {
+  margin-top: 0;
+}
+
+.popup-guide p {
+  justify-self: left;
+  margin-left: 2vh;
+}
+
+#texte-popup p {
   font-size: large;
 }
 
@@ -114,6 +130,7 @@ body {
   width: fit-content;
   max-width: 90vw;
 }
+
 .cadre-popup {
   position: absolute;
   left: 0; top: 0;
@@ -121,13 +138,15 @@ body {
   z-index: 1;
   pointer-events: none;
 }
+
 #texte-popup {
   position: relative;
   z-index: 2;
-  padding: 20em 12em 18em 12em; /* adapté au motif doré */
+  padding: 30em 22em 30em 22em; /* adapté au motif doré */
   color: #fff;
   word-break: break-word;
 }
+
 #close-popup {
   z-index: 3;
   position: relative;
