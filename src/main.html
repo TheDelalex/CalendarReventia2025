@@ -11,8 +11,25 @@
 
 <body>
   <div class="btn">
-  <button class="btn-reset">RESET</button>
-  <button class="btn-switch">SWITCH</button>
+    <audio id="bg-music" src="music/jour1.mp3" loop></audio>
+    <button class="btn-reset">RESET</button>
+    <button class="btn-switch">Afficher les cases des jours ouverts</button>
+    <div id="volume-bar" style="
+    position: fixed;
+  right: 12px;
+  bottom: 12px;
+  background: rgba(0,0,0,0.6);
+  padding: 6px 8px;
+  border-radius: 8px;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  z-index: 5000;
+  opacity: 0.85;
+">
+      <span style="color:white;font-size:0.8em;">🎵</span>
+      <input id="volume-range" type="range" min="0" max="1" step="0.01" value="0.1">
+    </div>
   </div>
   <div id="popup-bienvenue">
     <div id="popup2">
@@ -24,6 +41,10 @@
         <p>
           Chaque jour, une case devient accessible, et derrière elle des
           histoires et des surprises !
+        </p>
+        <p>
+          Vous pouvez réafficher les cases déjà ouverte en utilisant le bouton situé en haut de l'écran
+          et une gestion du sons sera toujours accessible en bas à droite de votre écran
         </p>
         <p>
           Merci à Blanche et Aurélien pour les illustrations. Antoine pour

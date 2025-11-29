@@ -9,12 +9,18 @@ window.addEventListener("DOMContentLoaded", function () {
   const currentMonth = today.getMonth() + 1;
   const currentDay = today.getDate();
 
+  const wrapper = document.getElementById("page-wrapper");
+
   const button = this.document.querySelector(".btn-reset");
   const switchBtn = this.document.querySelector(".btn-switch");
 
   const cells = this.document.querySelectorAll(".calendar-cell");
   const totalCells = cells.length;
   let loadedCases = 0;
+
+  const audio = document.getElementById("bg-music");
+  const volumeRange = document.getElementById("volume-range");
+  const volumeBar = document.getElementById("volume-bar");
 
   function onCaseLoaded() {
     loadedCases++;
@@ -65,6 +71,9 @@ window.addEventListener("DOMContentLoaded", function () {
         e.preventDefault(); // Précaution: ça NOPE aussi le clic clavier
         return false;
       }
+      if (audio && !audio.paused) {
+        audio.pause();
+      }
       // Marquer comme ouverte
       cell.classList.add("ouvert");
       ouverts[day] = true;
@@ -79,17 +88,20 @@ window.addEventListener("DOMContentLoaded", function () {
     });
   });
 
-  switchBtn.addEventListener("click", function () {
-    cells.forEach((cell) => {
-      if (!cell.classList.contains("show-opened") && cell.classList.contains("ouvert")) {
-        cell.classList.add("show-opened");
+  if (switchBtn && wrapper) {
+    switchBtn.addEventListener("click", function () {
+      if (wrapper.classList.contains("show-opened")) {
+        switchBtn.innerHTML = "Afficher les cases déjà ouvertes"
       }
-      else if (cell.classList.contains("show-opened") && cell.classList.contains("ouvert")) {
-        cell.classList.remove("show-opened");
+      else {
+        switchBtn.innerHTML = "Masquer les cases déjà ouvertes"
       }
-    })
-  });
+      wrapper.classList.toggle("show-opened");
+      
+    });
+  }
 
+  
 
   var popup = document.getElementById("popup-bienvenue");
   var closeBtn = document.getElementById("close-popup");
@@ -104,8 +116,7 @@ window.addEventListener("DOMContentLoaded", function () {
   }
 
   button.addEventListener("click", function () {
-    localStorage.removeItem('calendrierOuvert');
-    localStorage.removeItem('popupBienvenueMasquee');
+    localStorage.clear();
     window.location.reload();
   })
 
@@ -126,7 +137,6 @@ window.addEventListener("DOMContentLoaded", function () {
     });
   }
 
-  const wrapper = document.getElementById("page-wrapper");
   // Affichage / masquage initial selon localStorage
   if (localStorage.getItem("popupBienvenueMasquee") === "1") {
     if (popup) popup.style.display = "none";
@@ -144,32 +154,28 @@ window.addEventListener("DOMContentLoaded", function () {
     });
   }
 
-  if (switchBtn && wrapper) {
-    switchBtn.addEventListener("click", function () {
-      wrapper.classList.toggle("show-opened");
+  if (audio && volumeRange && volumeBar) {
+    audio.volume = parseFloat(volumeRange.value);
+
+    // 1ère interaction utilisateur -> on lance la musique une seule fois
+    let musicStarted = false;
+    function startMusicOnce() {
+      if (musicStarted) return;
+      musicStarted = true;
+      audio.play().catch(() => {
+        alert("La musique de fond n'a pas pu démarrer automatiquement. Veuillez démarrer ce gros débile d'Alex");
+      });
+      // on peut aussi retirer cet écouteur si tu veux
+      window.removeEventListener("click", startMusicOnce);
+      window.removeEventListener("keydown", startMusicOnce);
+    }
+
+    window.addEventListener("click", startMusicOnce);
+    window.addEventListener("keydown", startMusicOnce);
+
+    // Gestion du volume
+    volumeRange.addEventListener("input", () => {
+      audio.volume = parseFloat(volumeRange.value);
     });
   }
-
-  // var mauvaisClics = 0;
-  // const SEUIL = 10;
-  // document.addEventListener("click", function (e) {
-  //   const cell = e.target.closest(".calendar-cell");
-
-  //   // Si on clique sur une case:
-  //   if (cell) {
-  //     // case accessible ? -> pas un mauvais clic
-  //     if (!cell.classList.contains("locked")) return;
-
-  //     // case verrouillée -> mauvais clic
-  //     mauvaisClics++;
-  //   } else {
-  //     // Clic ailleurs que sur une case -> mauvais clic
-  //     mauvaisClics++;
-  //   }
-
-  //   if (mauvaisClics >= SEUIL) {
-  //     alert("Arrête de cliquer ailleurs");
-  //     mauvaisClics = 0; // on reset le compteur
-  //   }
-  // }, true);
 });
