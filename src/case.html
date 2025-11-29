@@ -57,7 +57,7 @@
   const jour = Number(params.get('jour'));
   const today = new Date();
   // === Astuce pour test : décommente la ligne suivante pour simuler une date ==== 
-  today.setMonth(11); today.setDate(6); // 0=jan, 6=déc
+  today.setMonth(11); today.setDate(2); // 0=jan, 6=déc
 
   // Vérifie si la case est "ouverte" à la bonne date
   const estOuvert = (today.getMonth() + 1 > 12) || (today.getMonth() + 1 === 12 && today.getDate() >= jour);

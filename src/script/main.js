@@ -4,7 +4,7 @@ window.addEventListener("DOMContentLoaded", function () {
   const today = new Date();
   // Date de test
   today.setMonth(11); // 0=janvier, donc 11=décembre
-  today.setDate(6); // 6 décembre
+  today.setDate(2); // 6 décembre
 
   const currentMonth = today.getMonth() + 1;
   const currentDay = today.getDate();
