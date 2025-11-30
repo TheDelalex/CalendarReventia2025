@@ -1,0 +1,23 @@
+Liste des tests : 
+
+--> Page principale
+
+[] - Apparition propre de la bannière et possibilité de ne plus la faire apparaitre au prochain redémarrage
+[] - Les cases apparaissent clairement et ne dépassent pas du cadre du site ou ne laisse pas apparaitre ce qu'il y a derrière elle
+[] - Les cases ouvertent disparaisent, même après rechargement du site
+[] - L'illustration en arrière plan ne se charge pas avant les cases (spam Ctrl + F5 pour tester cela)
+[] - Possibilité de faire apparaitre et disparaitre des cases déjà ouverte
+[] - Changer le volume de la musique et mettre en pause
+[] - Réinitialiser le site
+[] - Pouvoir ouvrir une case
+[] - Les cases non accessible sont grisés
+[] - Il n'est pas possible d'accéder à une case non accessible (le site est simulé au 7 décembre)
+
+--> Case :
+
+[] - Apparition de l'intro à la première ouverte
+[] - Disparition de l'intro au prochaine ouverture de la même case avec animation très légère
+[] - Changer le volume de la musique et mettre en pause
+[] - La musique se lance automatiquement à la première ouverture, en quittant l'intro
+[] - La musique ne se lance plus automatiquement au prochaine ouverture et possiblité de la démarrer soi-même
+[] - Le formatage des pages est propre et lisible
