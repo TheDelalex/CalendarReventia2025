@@ -11,7 +11,7 @@ window.addEventListener("DOMContentLoaded", function () {
 
   const wrapper = document.getElementById("page-wrapper");
 
-  const button = this.document.querySelector(".btn-reset");
+  const reset = this.document.querySelector(".reset");
   const switchBtn = this.document.querySelector(".btn-switch");
 
   const cells = this.document.querySelectorAll(".calendar-cell");
@@ -181,6 +181,13 @@ window.addEventListener("DOMContentLoaded", function () {
         audio.pause();
         musicToggle.textContent = "⏵";
       }
+    })
+  }
+
+  if (reset) {
+    reset.addEventListener("click", () => {
+      this.localStorage.clear();
+      window.location.reload()
     })
   }
 });

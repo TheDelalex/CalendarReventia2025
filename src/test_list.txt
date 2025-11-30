@@ -1,0 +1,16 @@
+Liste des tests : 
+
+--> Page principale
+
+[] - Apparition propre de la bannière et possibilité de ne plus la faire apparaitre au prochain redémarrage
+[] - Possibilité de faire apparaitre et disparaitre des cases déjà ouverte
+[] - Changer le volume de la musique et mettre en pause
+[] - Réinitialiser le site
+
+--> Case :
+
+[] - Apparition de l'intro à la première ouverte
+[] - Disparition de l'intro au prochaine ouverture de la même case
+[] - Changer le volume de la musique et mettre en pause
+[] - La musique se lance automatiquement à la première ouverture
+[] - La musique ne se lance plus automatiquement au prochaine ouverture et possiblité de la démarrer automatique
