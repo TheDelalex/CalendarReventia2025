@@ -74,6 +74,7 @@ window.addEventListener("DOMContentLoaded", function () {
       }
       if (audio && !audio.paused) {
         audio.pause();
+        musicToggle.textContent = "⏵";
       }
       // Marquer comme ouverte
       cell.classList.add("ouvert");
