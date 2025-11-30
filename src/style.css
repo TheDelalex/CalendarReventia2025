@@ -139,7 +139,7 @@ body {
 #texte-popup {
   position: relative;
   z-index: 2;
-  padding: 30em 22em 30em 22em; /* adapté au motif doré */
+  padding: 26em 20em 26em 20em; /* adapté au motif doré */
   color: #fff;
   word-break: break-word;
 }
