@@ -100,10 +100,7 @@ body {
 .popup-guide p {
   justify-self: left;
   margin-left: 2vh;
-}
-
-#texte-popup p {
-  font-size: large;
+  margin-right: 2vh;
 }
 
 #popup-bienvenue {
@@ -119,7 +116,7 @@ body {
 .popup-title {
   font-family: "Lostar", Arial, Helvetica, sans-serif;
   font-weight: normal;
-  font-size: xxx-large;
+  font-size: xx-large;
   color: gold;
 }
 
