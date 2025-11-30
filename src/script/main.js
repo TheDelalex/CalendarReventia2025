@@ -204,19 +204,15 @@ window.addEventListener("DOMContentLoaded", function () {
     return isTouchUA && isSmallScreen;
   }
 
-  function handleMobileBlocker() {
   const blocker = document.getElementById("mobile-blocker");
   if (!blocker) return;
 
   if (isMobileScreen()) {
     blocker.style.display = "flex";
     document.body.style.overflow = "hidden";
+    audio.src = ""; // couper la musique sur mobile
   } else {
     blocker.style.display = "none";
     document.body.style.overflow = "";
-    }
   }
-
-  window.addEventListener("load", handleMobileBlocker);
-  window.addEventListener("resize", handleMobileBlocker);
 });
