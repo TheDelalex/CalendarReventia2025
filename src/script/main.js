@@ -1,6 +1,8 @@
 window.addEventListener("DOMContentLoaded", function () {
   const ouverts = JSON.parse(localStorage.getItem("calendrierOuvert") || "{}");
 
+  const blocker = document.getElementById("mobile-blocker");
+
   const today = new Date();
   // Date de test
   today.setMonth(11); // 0=janvier, donc 11=décembre
@@ -32,6 +34,15 @@ window.addEventListener("DOMContentLoaded", function () {
         document.getElementById("bg-img").src = bgImg.src;
       };
     }
+  }
+
+  if (isMobileScreen()) {
+    blocker.style.display = "flex";
+    document.body.style.overflow = "hidden";
+    audio.src = ""; // couper la musique sur mobile
+  } else {
+    blocker.style.display = "none";
+    document.body.style.overflow = "";
   }
 
   cells.forEach((cell) => {
@@ -202,17 +213,5 @@ window.addEventListener("DOMContentLoaded", function () {
     const isSmallScreen = window.innerWidth <= 1024;
 
     return isTouchUA && isSmallScreen;
-  }
-
-  const blocker = document.getElementById("mobile-blocker");
-  if (!blocker) return;
-
-  if (isMobileScreen()) {
-    blocker.style.display = "flex";
-    document.body.style.overflow = "hidden";
-    audio.src = ""; // couper la musique sur mobile
-  } else {
-    blocker.style.display = "none";
-    document.body.style.overflow = "";
   }
 });
