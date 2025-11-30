@@ -191,4 +191,25 @@ window.addEventListener("DOMContentLoaded", function () {
       window.location.reload()
     })
   }
+
+  function isMobileScreen() {
+    // largeur max typique mobile
+    return window.matchMedia("(max-width: 768px)").matches;
+  }
+
+  function handleMobileBlocker() {
+    const blocker = document.getElementById("mobile-blocker");
+    if (!blocker) return;
+
+    if (isMobileScreen()) {
+      blocker.style.display = "flex";        // on masque le site derrière
+      document.body.style.overflow = "hidden";
+    } else {
+      blocker.style.display = "none";
+      document.body.style.overflow = "";
+    }
+  }
+
+  window.addEventListener("load", handleMobileBlocker);
+  window.addEventListener("resize", handleMobileBlocker);
 });

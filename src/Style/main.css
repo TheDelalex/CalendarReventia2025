@@ -190,3 +190,22 @@ body {
   border-radius: 35px;
   border-style: ridge;
 }
+
+/* Mobile Blocker Styles */
+#mobile-blocker {
+  position: fixed;
+  inset: 0;
+  background: #111;
+  color: #fff;
+  display: none;              /* caché par défaut */
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  z-index: 20000;
+  padding: 2rem;
+}
+
+.mobile-blocker-box {
+  max-width: 500px;
+  margin: 0 auto;
+}
