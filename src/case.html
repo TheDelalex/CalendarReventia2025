@@ -51,7 +51,7 @@
     font-size:0.9em;
   ">⏵</button>
   <span style="color:white;font-size:0.8em;">🎵</span>
-  <input id="volume-range" type="range" min="0" max="1" step="0.01" value="0.1">
+  <input id="volume-range" type="range" min="0" max="1" step="0.01" value="0.2">
 </div>
 <div id="contenu"></div>
 <div id="avertissement">
@@ -66,7 +66,7 @@
   const jour = Number(params.get('jour'));
   const today = new Date();
   // === Astuce pour test : décommente la ligne suivante pour simuler une date ==== 
-  today.setMonth(11); today.setDate(2); // 0=jan, 6=déc
+  today.setMonth(11); today.setDate(7); // 0=jan, 7=déc
 
   // Vérifie si la case est "ouverte" à la bonne date
   const estOuvert = (today.getMonth() + 1 > 12) || (today.getMonth() + 1 === 12 && today.getDate() >= jour);

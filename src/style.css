@@ -116,7 +116,7 @@ body {
 .popup-title {
   font-family: "Lostar", Arial, Helvetica, sans-serif;
   font-weight: normal;
-  font-size: xx-large;
+  font-size: 2em;
   color: gold;
 }
 
@@ -181,8 +181,8 @@ body {
   transform: translate(2px, 2px);
 }
 
-/* Reset button */
-.btn {
-  position:absolute;
-  z-index: 100000;
+/* Music et Control Button */
+.btn-switch {
+  border-radius: 35px;
+  border-style: ridge;
 }

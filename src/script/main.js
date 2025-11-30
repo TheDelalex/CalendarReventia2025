@@ -4,7 +4,7 @@ window.addEventListener("DOMContentLoaded", function () {
   const today = new Date();
   // Date de test
   today.setMonth(11); // 0=janvier, donc 11=décembre
-  today.setDate(2); // 6 décembre
+  today.setDate(7); // 7 décembre
 
   const currentMonth = today.getMonth() + 1;
   const currentDay = today.getDate();
@@ -109,11 +109,6 @@ window.addEventListener("DOMContentLoaded", function () {
       popup.style.display = "none";
     });
   }
-
-  button.addEventListener("click", function () {
-    localStorage.clear();
-    window.location.reload();
-  })
 
   const btnFermer = document.getElementById("close-popup");
   const chkNePlus = document.getElementById("popup-ne-plus-afficher");
