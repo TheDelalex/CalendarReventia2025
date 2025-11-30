@@ -193,22 +193,29 @@ window.addEventListener("DOMContentLoaded", function () {
   }
 
   function isMobileScreen() {
-    // largeur max typique mobile
-    return window.matchMedia("(max-width: 768px)").matches;
+    const ua = navigator.userAgent || navigator.vendor || window.opera;
+
+    // détection basique smartphones/tablettes
+    const isTouchUA = /android|iphone|ipad|ipod|windows phone|blackberry|opera mini|mobile/i.test(ua);
+
+    // et on combine avec une largeur max raisonnable
+    const isSmallScreen = window.innerWidth <= 1024;
+
+    return isTouchUA && isSmallScreen;
   }
 
   function handleMobileBlocker() {
-    const blocker = document.getElementById("mobile-blocker");
-    if (!blocker) return;
+  const blocker = document.getElementById("mobile-blocker");
+  if (!blocker) return;
 
-    if (isMobileScreen()) {
-      blocker.style.display = "flex";        // on masque le site derrière
-      document.body.style.overflow = "hidden";
-    } else {
-      blocker.style.display = "none";
-      document.body.style.overflow = "";
-    }
+  if (isMobileDevice()) {
+    blocker.style.display = "flex";
+    document.body.style.overflow = "hidden";
+  } else {
+    blocker.style.display = "none";
+    document.body.style.overflow = "";
   }
+}
 
   window.addEventListener("load", handleMobileBlocker);
   window.addEventListener("resize", handleMobileBlocker);
