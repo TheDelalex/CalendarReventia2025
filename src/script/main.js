@@ -208,14 +208,14 @@ window.addEventListener("DOMContentLoaded", function () {
   const blocker = document.getElementById("mobile-blocker");
   if (!blocker) return;
 
-  if (isMobileDevice()) {
+  if (isMobileScreen()) {
     blocker.style.display = "flex";
     document.body.style.overflow = "hidden";
   } else {
     blocker.style.display = "none";
     document.body.style.overflow = "";
+    }
   }
-}
 
   window.addEventListener("load", handleMobileBlocker);
   window.addEventListener("resize", handleMobileBlocker);
