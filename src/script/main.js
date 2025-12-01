@@ -101,10 +101,10 @@ window.addEventListener("DOMContentLoaded", function () {
   if (switchBtn && wrapper) {
     switchBtn.addEventListener("click", function () {
       if (wrapper.classList.contains("show-opened")) {
-        switchBtn.innerHTML = "Afficher les cases déjà ouvertes"
+        switchBtn.innerHTML = "Fermer les cases déjà ouvertes"
       }
       else {
-        switchBtn.innerHTML = "Masquer les cases déjà ouvertes"
+        switchBtn.innerHTML = "Ouvrir les cases déjà ouvertes"
       }
       wrapper.classList.toggle("show-opened");
       
