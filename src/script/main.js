@@ -4,6 +4,8 @@ window.addEventListener("DOMContentLoaded", function () {
   const blocker = document.getElementById("mobile-blocker");
 
   const today = new Date();
+  // Changer jour 
+  // today.setDate(20);
 
   const currentMonth = today.getMonth() + 1;
   const currentDay = today.getDate();
