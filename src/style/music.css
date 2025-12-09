@@ -1,0 +1,27 @@
+#volume-bar {
+    position: fixed;
+    right: 12px;
+    bottom: 12px;
+    background: rgba(0,0,0,0.6);
+    padding: 6px 8px;
+    border-radius: 8px;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    z-index: 5000;
+    opacity: 0.85;
+}
+
+#music-toggle {
+    border:1px solid white;
+    background:white;
+    color:black;
+    cursor:pointer;
+    font-size:1em;
+    border-radius: 50px;
+}
+
+#logo-music {
+    color: white;
+    font-size: 0.8em;
+}

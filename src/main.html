@@ -2,117 +2,108 @@
 <html lang="fr">
 
 <head>
-  <meta charset="UTF-8" />
-  <title>Calendrier de l'avent 2025</title>
-  <link rel="stylesheet" href="Style/main.css?v=1.08" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <script src="script/main.js?v=1.08"></script>
+	<meta charset="UTF-8" />
+	<title>Calendrier de l'avent 2025</title>
+	<link rel="stylesheet" href="style/main.css" />
+	<link rel="stylesheet" href="style/music.css" />
+	<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+	<script src="script/main.js"></script>
 </head>
 
 <body>
-  <div id="mobile-blocker">
-    <div class="mobile-blocker-box">
-      <h2>Site non disponible sur mobile</h2>
-      <p>Merci d’ouvrir ce calendrier depuis un ordinateur pour une meilleure expérience.</p>
-    </div>
-  </div>
-  <audio id="bg-music" src="music/main.mp3" loop></audio>
-  <div id="volume-bar" style="
-    position: fixed;
-  right: 12px;
-  bottom: 12px;
-  background: rgba(0,0,0,0.6);
-  padding: 6px 8px;
-  border-radius: 8px;
-  display: flex;
-  align-items: center;
-  gap: 6px;
-  z-index: 5000;
-  opacity: 0.85;
-">
-  <button class="button reset">Remettre le calendrier à zéro</button>
-  <button class="button btn-switch">Fermer les cases déjà ouvertes</button>
-  <button id="music-toggle" style="
-    border:1px solid white;
-    background:white;
-    color:black;
-    cursor:pointer;
-    font-size:1em;
-    border-radius: 50px;
-  ">⏵</button>
-      <span style="color:white;font-size:0.8em;">🎵</span>
-      <input id="volume-range" type="range" min="0" max="1" step="0.01" value="0.2">
-      
-  </div>
-  <div id="popup-bienvenue">
-    <div id="popup2">
-      <img src="Images/banniere.png" class="cadre-popup"/>
-      <div id="texte-popup">
-        <h1 class="popup-title">
-          Bienvenue sur le Calendrier de l'avent de Reventia
-        </h1>
-        <div class="popup-guide">
-        <h2 class="popup-title">Comment ça marche ?</h2>
-        <p>
-          → Chaque jour, une case se débloque ! En cliquant dessus, un onglet s'ouvre et la case disparait, révélant une petite surprise derrière.
-        </p>
-        <p>
-          → Le site ne se mets pas à jour automatiquement, donc n'hésitez pas à rafraîchir la page chaque jour pour voir les nouvelles cases !
-        </p>
-        <p>
-          → Des musiques accompagnent chaque case (et même ce menu !). N'hésite pas à ajuster le volume avec la barre en bas à droite.
-        </p>
-        <p>
-          → Les cases ne relançeront pas leurs musiques si vous retournez dessus mais vous pouvez les activer en cliquant en bas à droite.
-        </p>
-        <p>
-          → Enfin, en bas à droite se trouve un bouton pour réafficher les cases ayant disparues si vous souhaitez les retrouver.
-        </p>
-        </div>
-        <p>
-          Merci à Blanche et Aurélien pour les illustrations. Antoine pour
-          chaque petite surprise contenue dans chaque case, <br />
-          Virginie pour une autre petite surprise qu'on garde cachée et enfin moi-même, Alex, pour ce site web !
-        </p>
-        <button id="close-popup">Démarrer</button>
-        <label style="display: block; margin-top: 16px; font-size: 0.9em">
-          <input type="checkbox" id="popup-ne-plus-afficher" />
-          Ne plus afficher ce message
-        </label>
-      </div>
-    </div>
-  </div>
-  <div id="page-wrapper">
-    <div class="container">
-      <div class="calendar-grid">
-        <a href="case.html?jour=6" class="calendar-link" data-day="6"><img class="calendar-cell" /></a>
-        <a href="case.html?jour=2" class="calendar-link" data-day="2"><img class="calendar-cell" /></a>
-        <a href="case.html?jour=22" class="calendar-link" data-day="22"><img class="calendar-cell" /></a>
-        <a href="case.html?jour=24" class="calendar-link" data-day="24"><img class="calendar-cell" /></a>
-        <a href="case.html?jour=1" class="calendar-link" data-day="1"><img class="calendar-cell" /></a>
-        <a href="case.html?jour=17" class="calendar-link" data-day="17"><img class="calendar-cell" /></a>
-        <a href="case.html?jour=20" class="calendar-link" data-day="20"><img class="calendar-cell" /></a>
-        <a href="case.html?jour=10" class="calendar-link" data-day="10"><img class="calendar-cell" /></a>
-        <a href="case.html?jour=14" class="calendar-link" data-day="14"><img class="calendar-cell" /></a>
-        <a href="case.html?jour=7" class="calendar-link" data-day="7"><img class="calendar-cell" /></a>
-        <a href="case.html?jour=18" class="calendar-link" data-day="18"><img class="calendar-cell" /></a>
-        <a href="case.html?jour=12" class="calendar-link" data-day="12"><img class="calendar-cell" /></a>
-        <a href="case.html?jour=9" class="calendar-link" data-day="9"><img class="calendar-cell" /></a>
-        <a href="case.html?jour=5" class="calendar-link" data-day="5"><img class="calendar-cell" /></a>
-        <a href="case.html?jour=15" class="calendar-link" data-day="15"><img class="calendar-cell" /></a>
-        <a href="case.html?jour=3" class="calendar-link" data-day="3"><img class="calendar-cell" /></a>
-        <a href="case.html?jour=11" class="calendar-link" data-day="11"><img class="calendar-cell" /></a>
-        <a href="case.html?jour=4" class="calendar-link" data-day="4"><img class="calendar-cell" /></a>
-        <a href="case.html?jour=21" class="calendar-link" data-day="21"><img class="calendar-cell" /></a>
-        <a href="case.html?jour=16" class="calendar-link" data-day="16"><img class="calendar-cell" /></a>
-        <a href="case.html?jour=8" class="calendar-link" data-day="8"><img class="calendar-cell" /></a>
-        <a href="case.html?jour=23" class="calendar-link" data-day="23"><img class="calendar-cell" /></a>
-        <a href="case.html?jour=19" class="calendar-link" data-day="19"><img class="calendar-cell" /></a>
-        <a href="case.html?jour=13" class="calendar-link" data-day="13"><img class="calendar-cell" /></a>
-      </div>
-    </div>
-    <img id="bg-img" alt="" aria-hidden="true" />
-  </div>
+	<div id="mobile-blocker">
+		<div class="mobile-blocker-box">
+			<h2>Site non disponible sur mobile</h2>
+			<p>
+				Merci d’ouvrir ce calendrier depuis un ordinateur pour une meilleure
+				expérience.
+			</p>
+		</div>
+	</div>
+	<audio id="bg-music" src="music/main.mp3" loop></audio>
+	<div id="volume-bar">
+		<button class="button reset">Remettre le calendrier à zéro</button>
+		<button class="button btn-switch">Fermer les cases déjà ouvertes</button>
+		<button id="music-toggle">⏵</button>
+		<span id="logo-music">🎵</span>
+		<input id="volume-range" type="range" min="0" max="1" step="0.01" value="0.2" />
+	</div>
+	<div id="popup-bienvenue">
+		<div id="popup2">
+			<img src="Images/banniere.png" class="cadre-popup" />
+			<div id="texte-popup">
+				<h1 class="popup-title">
+					Bienvenue sur le Calendrier de l'avent de Reventia
+				</h1>
+				<div class="popup-guide">
+					<h2 class="popup-title">Comment ça marche ?</h2>
+					<p>
+						→ Chaque jour, une case se débloque ! En cliquant dessus, un
+						onglet s'ouvre et la case disparait, révélant une petite surprise
+						derrière.
+					</p>
+					<p>
+						→ Le site ne se mets pas à jour automatiquement, donc n'hésitez
+						pas à rafraîchir la page chaque jour pour voir les nouvelles cases
+						!
+					</p>
+					<p>
+						→ Des musiques accompagnent chaque case (et même ce menu !).
+						N'hésite pas à ajuster le volume avec la barre en bas à droite.
+					</p>
+					<p>
+						→ Les cases ne relançeront pas leurs musiques si vous retournez
+						dessus mais vous pouvez les activer en cliquant en bas à droite.
+					</p>
+					<p>
+						→ Enfin, en bas à droite se trouve un bouton pour réafficher les
+						cases ayant disparues si vous souhaitez les retrouver.
+					</p>
+				</div>
+				<p>
+					Merci à Blanche et Aurélien pour les illustrations. Antoine pour
+					chaque petite surprise contenue dans chaque case, <br />
+					Virginie pour une autre petite surprise qu'on garde cachée et enfin
+					moi-même, Alex, pour ce site web !
+				</p>
+				<button id="close-popup">Démarrer</button>
+				<label style="display: block; margin-top: 16px; font-size: 0.9em">
+					<input type="checkbox" id="popup-ne-plus-afficher" />
+					Ne plus afficher ce message
+				</label>
+			</div>
+		</div>
+	</div>
+	<div id="page-wrapper">
+		<div class="container">
+			<div class="calendar-grid">
+				<a href="case.html?jour=6" class="calendar-link" data-day="6"><img class="calendar-cell" /></a>
+				<a href="case.html?jour=2" class="calendar-link" data-day="2"><img class="calendar-cell" /></a>
+				<a href="case.html?jour=22" class="calendar-link" data-day="22"><img class="calendar-cell" /></a>
+				<a href="case.html?jour=24" class="calendar-link" data-day="24"><img class="calendar-cell" /></a>
+				<a href="case.html?jour=1" class="calendar-link" data-day="1"><img class="calendar-cell" /></a>
+				<a href="case.html?jour=17" class="calendar-link" data-day="17"><img class="calendar-cell" /></a>
+				<a href="case.html?jour=20" class="calendar-link" data-day="20"><img class="calendar-cell" /></a>
+				<a href="case.html?jour=10" class="calendar-link" data-day="10"><img class="calendar-cell" /></a>
+				<a href="case.html?jour=14" class="calendar-link" data-day="14"><img class="calendar-cell" /></a>
+				<a href="case.html?jour=7" class="calendar-link" data-day="7"><img class="calendar-cell" /></a>
+				<a href="case.html?jour=18" class="calendar-link" data-day="18"><img class="calendar-cell" /></a>
+				<a href="case.html?jour=12" class="calendar-link" data-day="12"><img class="calendar-cell" /></a>
+				<a href="case.html?jour=9" class="calendar-link" data-day="9"><img class="calendar-cell" /></a>
+				<a href="case.html?jour=5" class="calendar-link" data-day="5"><img class="calendar-cell" /></a>
+				<a href="case.html?jour=15" class="calendar-link" data-day="15"><img class="calendar-cell" /></a>
+				<a href="case.html?jour=3" class="calendar-link" data-day="3"><img class="calendar-cell" /></a>
+				<a href="case.html?jour=11" class="calendar-link" data-day="11"><img class="calendar-cell" /></a>
+				<a href="case.html?jour=4" class="calendar-link" data-day="4"><img class="calendar-cell" /></a>
+				<a href="case.html?jour=21" class="calendar-link" data-day="21"><img class="calendar-cell" /></a>
+				<a href="case.html?jour=16" class="calendar-link" data-day="16"><img class="calendar-cell" /></a>
+				<a href="case.html?jour=8" class="calendar-link" data-day="8"><img class="calendar-cell" /></a>
+				<a href="case.html?jour=23" class="calendar-link" data-day="23"><img class="calendar-cell" /></a>
+				<a href="case.html?jour=19" class="calendar-link" data-day="19"><img class="calendar-cell" /></a>
+				<a href="case.html?jour=13" class="calendar-link" data-day="13"><img class="calendar-cell" /></a>
+			</div>
+		</div>
+		<img id="bg-img" alt="" aria-hidden="true" />
+	</div>
 </body>
-
 </html>
