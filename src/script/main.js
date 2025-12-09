@@ -142,6 +142,9 @@ window.addEventListener("DOMContentLoaded", async function () {
 	if (localStorage.getItem("popupBienvenueMasquee") === "1") {
 		if (popup) popup.style.display = "none";
 	}
+	else {
+		if (popup) popup.style.display = "flex";
+	}
 
 	if (popup && btnFermer && chkNePlus) {
 		btnFermer.addEventListener("click", function () {
