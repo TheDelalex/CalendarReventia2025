@@ -1,0 +1,711 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title></title>
+  <link rel="stylesheet" href="../style/case.css">
+  <link rel="stylesheet" href="../style/music.css" />
+  <script src="script/case.js"></script>
+
+  <script>
+    window.addEventListener("DOMContentLoaded", async function () {	
+        // Générer un entier aléatoire entre 1 et 5
+        const randomInt = Math.floor(Math.random() * 3) + 1;
+        // Récupère le numéro du jour depuis l'URL
+        const params = new URLSearchParams(window.location.search);
+        const jour = Number(params.get('jour'));
+        
+        // 1) Récupérer la date/heure via WorldTimeAPI
+        let today;
+        try {
+            const res = await fetch("https://worldtimeapi.org/api/timezone/Europe/Paris");
+            if (!res.ok) throw new Error("WorldTimeAPI error");
+            const data = await res.json();
+
+            // data.datetime est une ISO date, on la convertit en objet Date JS
+            today = new Date(data.datetime);
+        } catch (e) {
+            // En cas d’erreur API, on retombe sur l’heure locale du navigateur
+            today = new Date();
+        }
+        today.setDate(25);
+        const body = document.body;
+
+        const estOuvert = (today.getMonth() + 1 > 12) || (today.getMonth() + 1 === 12 && today.getDate() >= jour);
+
+        const avert = document.getElementById('avertissement');
+        const spanJour = document.getElementById('dateJour');
+
+        const overlay = document.getElementById('overlay-jour');
+        const overlayTexte = document.getElementById("overlay-texte");
+        const overlayBtn = document.getElementById("overlay-btn");
+        const audio = document.getElementById('audio-jour');
+        const volumeBar = document.getElementById('volume-range');
+        const musicToggle = document.getElementById('music-toggle');
+
+        // Changement du titre de la page
+	    document.title = "Jour " + jour;
+
+        // Gestion du volume
+        if (audio && volumeBar && musicToggle) {
+            audio.volume = parseFloat(volumeBar.value);
+            volumeBar.addEventListener('input', () => {
+                audio.volume = parseFloat(volumeBar.value);
+            });
+
+            musicToggle.addEventListener('click', () => {
+                if (audio.paused) {
+                    audio.play().then(() => {
+                        musicToggle.textContent = "⏸";
+                    }).catch(() => { });
+                } else {
+                    audio.pause();
+                    musicToggle.textContent = "⏵";
+                }
+            })
+        }
+
+    if (!estOuvert) {
+		avert.style.display = "block";
+		spanJour.textContent = jour || "?";
+        avert.textContent = "Cette case ne peut être ouverte que le jour " + (jour || "?") + " décembre.";
+	} else {
+		// Affichage du contenu seulement au bon jour
+        body.style.display = "block";
+		avert.style.display = "none";
+		fetch('contenus.json')
+			.then(response => {
+				if (!response.ok) throw new Error('Erreur de chargement du contenu !');
+				return response.json();
+			})
+			.then(contenus => {
+				const zone = document.getElementById('contenu');
+				if (contenus[jour]) {
+					zone.innerHTML = contenus[jour];
+				} else {
+					zone.textContent = 'Aucune information pour ce jour.';
+				}
+
+				// Une fois le contenu injecté, on gère la scène d'intro + musique
+				gereOverlayEtMusique();;
+			})
+			.catch(() => {
+				zone.textContent = "Calendrier indisponible pour le moment.";
+			});
+	}
+
+	// Fonction avec intro
+	function gereOverlayEtMusique() {
+		if (!overlay || !overlayBtn || !audio) return;
+		if (!jour) return;
+
+		const cleIntro = "introVue_jour" + jour;
+		audio.src = `music/jour${jour}.mp3`; // fichier audio jourX.mp3
+
+		// Si la scène a déjà été jouée pour cette case, ne rien refaire
+		if (localStorage.getItem(cleIntro) === "1") {
+			return;
+		}
+		musicToggle.textContent = "⏸";
+
+		// On est déjà sûr qu'estOuvert est true ici, donc bonne date
+
+		// Préparer visuel + son
+		overlay.style.backgroundImage = `url('Images/Cadeau/cadeau${randomInt}.jpg')`;
+		overlayTexte.textContent = "Bienvenue au jour numéro " + jour + " !";
+
+		// Masquer le contenu le temps de l'intro
+		zone.style.visibility = "hidden";
+		overlay.style.display = "flex";
+
+		overlayBtn.addEventListener('click', function () {
+			// Marque l'intro comme vue pour cette case
+			localStorage.setItem(cleIntro, "1");
+
+			overlay.classList.add('fade-out');
+
+			overlay.addEventListener('transitionend', () => {
+				overlay.style.display = "none";
+				zone.style.visibility = "visible";
+				audio.play().catch(() => { });
+			}, { once: true }); // Important
+		})
+	}
+    });
+  </script>
+
+  <!-- Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=STIX+Two+Text:wght@400;600;700&family=STIX+Two+Math&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+
+  <style>
+    body {display:none}
+:root{
+  --bg-deep:#07090d;
+  --bg-field:#0c1017;
+  --paper:#121722;
+  --paper-soft:rgba(18,23,34,0.85);
+
+  --ink:#e9ecf1;
+  --muted:#a8b0bf;
+
+  --accent-cyan:#7fd1ff;
+  --accent-gold:#d9c08a;
+  --accent-violet:#9b8cff;
+
+  --line:rgba(255,255,255,0.12);
+  --grid:rgba(255,255,255,0.04);
+
+  --radius:14px;
+  --shadow:0 25px 80px rgba(0,0,0,0.6);
+}
+
+/* ---------- BASE ---------- */
+html, body{
+  margin:0;
+  padding:0;
+}
+
+body{
+  font-family:"STIX Two Text","Times New Roman",serif;
+  color:var(--ink);
+  line-height:1.85;
+  background:
+    radial-gradient(1200px 600px at 20% 10%, rgba(127,209,255,0.08), transparent 60%),
+    radial-gradient(900px 700px at 80% 20%, rgba(155,140,255,0.07), transparent 65%),
+    linear-gradient(180deg, var(--bg-field), var(--bg-deep));
+  overflow-x:hidden;
+}
+
+/* ---------- CHAMP ÉNERGÉTIQUE LATENT ---------- */
+body::before{
+  content:"";
+  position:fixed;
+  inset:0;
+  pointer-events:none;
+  background:
+    linear-gradient(var(--grid) 1px, transparent 1px),
+    linear-gradient(90deg, var(--grid) 1px, transparent 1px);
+  background-size:48px 48px;
+  opacity:0.4;
+}
+
+/* ---------- CONTAINER ARTICLE ---------- */
+.page{
+  max-width:1020px;
+  margin:60px auto 100px;
+  padding:0 24px;
+  position:relative;
+  z-index:1;
+}
+
+.paper{
+  background:linear-gradient(
+    180deg,
+    var(--paper-soft),
+    rgba(10,14,22,0.92)
+  );
+  border:1px solid var(--line);
+  border-radius:var(--radius);
+  box-shadow:var(--shadow);
+  padding:48px 56px 44px;
+  backdrop-filter:blur(6px);
+}
+
+/* ---------- EN-TÊTE ---------- */
+header{
+  border-bottom:1px solid var(--line);
+  padding-bottom:22px;
+  margin-bottom:32px;
+}
+
+h1{
+  font-size:2.15rem;
+  line-height:1.25;
+  letter-spacing:0.3px;
+  margin:0 0 14px;
+}
+
+.authors{
+  color:var(--muted);
+  font-weight:600;
+}
+
+.affils{
+  margin-top:10px;
+  font-size:0.95rem;
+  color:var(--muted);
+}
+
+/* ---------- TITRES ---------- */
+h2{
+  font-size:1.55rem;
+  margin:36px 0 14px;
+  letter-spacing:0.3px;
+  color:var(--ink);
+}
+
+h3{
+  font-size:1.25rem;
+  margin:26px 0 10px;
+  letter-spacing:0.2px;
+  color:var(--accent-cyan);
+}
+
+/* ---------- TEXTE ---------- */
+p{
+  margin:14px 0;
+  text-align:justify;
+}
+
+strong{
+  color:#ffffff;
+}
+
+/* ---------- BLOCS MATH ---------- */
+.math-block{
+  margin:16px 0;
+  padding:14px 18px;
+  background:rgba(0,0,0,0.35);
+  border-left:3px solid var(--accent-gold);
+  border-radius:10px;
+  overflow-x:auto;
+}
+
+/* ---------- FIGURES & TABLEAUX ---------- */
+figure{
+  margin:26px 0 30px;
+  padding:16px 16px 12px;
+  border:1px solid var(--line);
+  border-radius:12px;
+  background:rgba(0,0,0,0.35);
+}
+
+figure img{
+  width:100%;
+  border-radius:8px;
+  border:1px solid rgba(255,255,255,0.1);
+}
+
+figcaption{
+  margin-top:12px;
+  font-size:0.95rem;
+  color:var(--muted);
+}
+
+/* ---------- NOTES & REMARQUES ---------- */
+.callout{
+  margin:20px 0;
+  padding:16px 18px;
+  border-left:3px solid var(--accent-violet);
+  background:rgba(155,140,255,0.08);
+  border-radius:12px;
+}
+
+/* ---------- CODE / SYMBOLIQUE ---------- */
+code{
+  font-family:"JetBrains Mono",monospace;
+  background:rgba(0,0,0,0.45);
+  padding:2px 6px;
+  border-radius:6px;
+  font-size:0.95em;
+}
+
+/* ---------- SÉPARATEURS ---------- */
+hr{
+  border:0;
+  height:1px;
+  background:var(--line);
+  margin:34px 0;
+}
+
+/* ---------- BIBLIOGRAPHIE ---------- */
+.refs{
+  margin-top:40px;
+  padding-top:26px;
+  border-top:1px solid var(--line);
+}
+
+.refitem{
+  margin:12px 0;
+}
+
+.refitem em{
+  color:var(--muted);
+}
+
+/* ---------- RESPONSIVE ---------- */
+@media(max-width:780px){
+  .paper{
+    padding:28px 22px;
+  }
+  h1{
+    font-size:1.75rem;
+  }
+}
+  </style>
+
+  <!-- MathJax (LaTeX rendering) -->
+  <script>
+    window.MathJax = {
+      tex: {
+        inlineMath: [['\\(', '\\)'], ['$', '$']],
+        displayMath: [['\\[', '\\]'], ['$$', '$$']],
+        processEscapes: true
+      },
+      options: { skipHtmlTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code'] }
+    };
+  </script>
+  <script defer src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml.js"></script>
+</head>
+
+<audio id="audio-jour" loop></audio>
+
+<div id="overlay-jour">
+	<div id="overlay-texte-fond">
+		<div id="overlay-texte">Texte d’intro</div>
+		<button id="overlay-btn">
+			Découvrir le cadeau
+		</button>
+	</div>
+</div>
+
+<div id="volume-bar">
+	<button id="music-toggle">⏵</button>
+	<span >🎵</span>
+	<input 
+		id="volume-range" 
+		type="range" 
+		min="0" 
+		max="1" 
+		step="0.01" 
+		value="0.2"
+	>
+</div>
+
+<body>
+  <main class="page">
+    <article class="paper">
+
+      <header>
+        <h1>Analyse de l’équilibre structurel du système stellaire 133J1E2X2 dans l’approche des champs de Tuson</h1>
+
+        <p class="authors"><strong>E. Vaelric</strong>¹, <strong>M. Thalorn</strong>², <strong>S. Kerys</strong>³ — <strong>4519 A.E.</strong></p>
+
+        <div class="affils">
+          <div>¹ Institut du Développement Spatial de Wolfbahc</div>
+          <div>² Département d’Arcanologie Théorique, Académie de Wolfbahc</div>
+          <div>³ Observatoire Astronomique Central de Wolfbahc</div>
+        </div>
+      </header>
+
+      <h2>Introduction</h2>
+
+      <p>
+        Au cours des soixante dernières années, les avancées technologiques dans le domaine de l’astronomie ont permis des progrès majeurs dans l’observation et la compréhension des structures stellaires. Le développement de miroirs liquides déformables à base de vif-argent a notamment rendu possible l’étude structurelle détaillée des planètes voisines [1], [2], tandis que le lancement du premier satellite divinatoire a permis d’effectuer les premières mesures expérimentales des deux objets supermassifs situés aux limites de notre système stellaire [3–5], théorisés près de quatre-vingt-cinq ans auparavant [6].
+      </p>
+
+      <p>
+        Ces observations ont conduit à l’établissement d’une cartographie complète du système stellaire 133J1E2X2 [7] et ont favorisé des avancées significatives dans les domaines de la physique, de la géologie et de la biologie planétaires [8–10]. Toutefois, la présence de deux corps supermassifs en interaction gravitationnelle introduit des écarts notables par rapport aux prédictions issues des théories actuelles du mouvement planétaire. Ni la mécanique classique ni la relativité générale ne parviennent à rendre compte de manière satisfaisante de certaines perturbations observées [11], remettant ainsi en question la compréhension de l’équilibre structurel global du système.
+      </p>
+
+      <p>
+        Parallèlement, le développement récent de la théorie des champs de Tuson a permis des avancées substantielles dans l’étude des interactions entre phénomènes physiques et thaumaturgiques, donnant naissance à un nouveau champ disciplinaire communément désigné sous le terme d’arcanologie [12]. Ces travaux ont profondément modifié le paradigme de l’apprentissage et de l’application de la magie, notamment par l’introduction de formalismes énergétiques unifiés et par le développement de nouveaux sorts fondés sur une modélisation plus rigoureuse des champs sous-jacents [13].
+      </p>
+
+      <p>
+        Le présent traité s’inscrit à l’intersection de ces deux évolutions majeures. Nous proposons une analyse des trajectoires des corps du système stellaire 133J1E2X2 en intégrant une approche perturbative fondée sur la théorie des champs de Tuson. Dans un premier temps, nous introduirons le cadre théorique de cette approche et son application aux trajectoires stellaires (Section 1). Nous confronterons ensuite les prédictions du modèle aux données observationnelles disponibles (Section 2). Enfin, les implications physiques et arcanologiques de ces résultats seront discutées avant de conclure.
+      </p>
+
+      <hr>
+
+      <h2>1. Développement théorique de l’approche perturbative des champs de Tuson</h2>
+
+      <p>
+        Cette section définit le cadre théorique retenu pour l’introduction d’un terme perturbatif aux équations gravitationnelles classiques. Sauf mention contraire, le système est supposé <strong>isotrope</strong> et <strong>isothaumique</strong>, et étudié dans un référentiel héliocentré. La perturbation induite par le champ de Tuson est considérée comme faible, de sorte que
+      </p>
+
+      <div class="math-block">
+        \[
+          0 < \varepsilon \ll 1.
+        \]
+      </div>
+
+      <p>
+        Les termes perturbatifs d’ordre quadratique et supérieur sont donc négligés, ce qui limite l’analyse à une perturbation de premier ordre.
+      </p>
+
+      <h3>1.1 Application de la perturbation</h3>
+
+      <p>
+        Les équations du mouvement gravitationnel issues de la mécanique classique s’écrivent, pour un corps <em>i</em> de masse \(m_i\) :
+      </p>
+
+      <div class="math-block">
+        \[
+          m_i\,\ddot{\mathbf{r}}_i = -\sum_{j\neq i} G\,m_i m_j\,\frac{\mathbf{r}_i-\mathbf{r}_j}{\lVert \mathbf{r}_i-\mathbf{r}_j\rVert^3}.
+        \]
+      </div>
+
+      <p>
+        Afin de prendre en compte l’influence du champ de Tuson, nous introduisons un terme de force perturbatif \(\mathbf{F}_T\), défini par :
+      </p>
+
+      <div class="math-block">
+        \[
+          \mathbf{F}_T(\mathbf{r}_i,t) = -\varepsilon\,m_i\,\nabla \mathcal{T}(\mathbf{r}_i,t)
+        \]
+      </div>
+
+      <p>
+        où \(\mathcal{T}(\mathbf{r}_i,t)\) désigne un tenseur effectif associé à la courbure locale du champ de Tuson aux coordonnées \(\mathbf{r}_i\) et au temps \(t\).
+      </p>
+
+      <p>
+        La trajectoire d’un corps peut alors être exprimée sous la forme d’un développement perturbatif :
+      </p>
+
+      <div class="math-block">
+        \[
+          \mathbf{r}_i(t)=\mathbf{r}_i^{(0)}(t)+\varepsilon\,\mathbf{r}_i^{(1)}(t)+\mathcal{O}(\varepsilon^2)
+        \]
+      </div>
+
+      <p>
+        où \(\mathbf{r}_i^{(0)}(t)\) correspond à la trajectoire gravitationnelle de référence, et \(\mathbf{r}_i^{(1)}(t)\) à la correction induite par le champ de Tuson.
+      </p>
+
+      <hr>
+
+      <h3>1.2 Rigidité tusonienne et équation de Poisson généralisée</h3>
+
+      <p>
+        L’expression perturbative introduite en Section 1.1 considère l’action du champ de Tuson sous la forme d’un terme de force additionnel. Toutefois, afin de rendre compte du caractère <strong>local</strong> et <strong>régularisant</strong> attribué au champ de Tuson au voisinage des objets supermassifs, il est plus approprié de formuler l’influence tusonienne comme une modification effective du milieu dans lequel s’établit le potentiel gravitationnel. Dans ce cadre, le champ de Tuson confère au milieu une rigidité énergétique qui limite l’amplification des gradients gravitationnels dans les régimes de champ extrême, tout en restant négligeable dans les régions où la gravitation est modérée.
+      </p>
+
+      <p>
+        En mécanique classique, le potentiel gravitationnel \(\Phi(\mathbf{r})\) engendré par une distribution de masse \(\rho(\mathbf{r})\) satisfait l’équation de Poisson :
+      </p>
+
+      <div class="math-block">
+        \[
+          \nabla^{2}\Phi(\mathbf{r}) = 4\pi G\,\rho(\mathbf{r})
+        \]
+      </div>
+
+      <p>
+        Pour modéliser une rigidification locale induite par le champ de Tuson, nous introduisons un coefficient scalaire \(\mu_T(\mathbf{r})\), interprété comme une rigidité tusonienne effective du milieu. L’équation précédente se généralise alors sous la forme :
+      </p>
+
+      <div class="math-block">
+        \[
+          \nabla\cdot\big(\mu_{T}(\mathbf{r})\,\nabla\Phi(\mathbf{r})\big) = 4\pi G\,\rho(\mathbf{r})
+        \]
+      </div>
+
+      <p>
+        Cette écriture implique que, pour une même distribution de masse, la structure spatiale de \(\Phi\) dépend désormais du milieu. Lorsque \(\mu_T(\mathbf{r}) > 1\), le potentiel varie plus lentement avec \(\mathbf{r}\), ce qui se traduit par un lissage des gradients locaux. À l’inverse, lorsque \(\mu_T(\mathbf{r}) \approx 1\), on retrouve les prédictions gravitationnelles usuelles.
+      </p>
+
+      <p>
+        L’accélération gravitationnelle ressentie par un corps test s’écrit :
+      </p>
+
+      <div class="math-block">
+        \[
+          \mathbf{a}(\mathbf{r}) = -\,\nabla\Phi(\mathbf{r})
+        \]
+      </div>
+
+      <p>
+        mais le potentiel \(\Phi\) est ici solution d’une équation de Poisson à coefficient variable. L’effet de rigidité tusonienne n’abolit donc pas la nature attractive de la gravitation ; il agit sur la manière dont les gradients gravitationnels s’établissent spatialement dans les régions de champ intense.
+      </p>
+
+      <h2>2. Comparaison du modèle aux mesures astronomiques</h2>
+
+      <p>
+        Cette section vise à confronter le formalisme développé en Section 1 aux données observationnelles disponibles pour le système stellaire 133J1E2X2. L’objectif n’est pas de fournir une description exhaustive de l’ensemble des dynamiques orbitales, mais d’évaluer dans quelle mesure l’introduction d’une rigidité tusonienne locale permet de réduire les écarts observés entre les prédictions issues des modèles gravitationnels standards et les mesures astronomiques.
+      </p>
+
+      <p>
+        Trois études de cas sont considérées : (i) l’orbite de Trion-2, planète tellurique supermassive fortement sensible aux perturbations de grande échelle, (ii) l’orbite de Reventia, située dans un régime de champ plus modéré, et (iii) les implications cosmologiques à grande échelle, déduites de l’analyse du fond gravitationnel diffus.
+      </p>
+
+      <hr>
+
+      <h3>2.1 Orbite de Trion-2</h3>
+
+      <p>
+        Afin de tester la pertinence du modèle tusonien dans un régime de champ gravitationnel intense, nous avons étudié l’évolution du rayon orbital effectif de Trion-2 en fonction de sa position angulaire le long de son orbite elliptique. Les simulations ont été réalisées en intégrant une rigidité tusonienne localisée au voisinage des deux objets supermassifs limitrophes du système.
+      </p>
+
+      <p>
+        Conformément aux hypothèses posées en Section 1.2, l’effet de rigidification est supposé actif uniquement dans une région sphérique de rayon \(100\,r_t\) autour de chacun des trous noirs, où \(r_t\) désigne le rayon de l’horizon des événements. En dehors de cette zone, la dynamique est gouvernée par les équations gravitationnelles usuelles.
+      </p>
+
+      <p>
+        La Figure 1 compare les résultats obtenus avec et sans rigidité tusonienne aux données observationnelles issues des mesures de trajectoires séculaires de Trion-2. On observe que l’introduction de la rigidité tusonienne permet de reproduire la variation observée du rayon orbital avec une concordance significativement améliorée. Dans ce cadre, le modèle rend compte des données avec une précision d’environ 95 %, contre des écarts systématiques persistants dans les modèles standards.
+      </p>
+
+      <p>
+        Ce résultat suggère que la rigidification locale du milieu gravitationnel joue un rôle déterminant dans la stabilisation de l’orbite de Trion-2 face aux gradients gravitationnels extrêmes induits par les objets supermassifs.
+      </p>
+
+      <!-- Image inserted where the text requests it -->
+      <figure id="figure-1">
+        <img src="figure%201.png" alt="Figure 1 — Orbite de Trion-2">
+        <figcaption>
+          <strong>Figure 1 — Orbite de Trion-2</strong><br>
+          Variation du rayon orbital normalisé de Trion-2 en fonction de la position orbitale. Les points correspondent aux mesures astronomiques issues des campagnes de l’Institut du Développement Spatial, tandis que les courbes représentent les prédictions théoriques. Les zones ombrées indiquent les régions de l’orbite où les gradients gravitationnels associés aux objets supermassifs sont maximaux. L’introduction d’une rigidité tusonienne locale permet une reproduction fidèle des observations, en réduisant significativement les écarts observés dans les modèles gravitationnels standards.
+        </figcaption>
+      </figure>
+
+      <hr>
+
+      <h3>2.2 Orbite de Reventia</h3>
+
+      <p>
+        Une analyse analogue a été menée pour la planète Reventia, située dans un régime de champ gravitationnel plus modéré et nettement plus éloigné des régions de rigidification maximale. Les paramètres orbitaux prédits par le modèle tusonien ont été comparés aux valeurs mesurées, telles que le demi-grand axe, l’excentricité et la période orbitale.
+      </p>
+
+      <p>
+        Le Tableau 1 présente une comparaison détaillée entre les paramètres observés et ceux obtenus à partir du modèle perturbé. Les résultats indiquent que, bien que la rigidité tusonienne contribue à une amélioration globale de la description de l’orbite de Reventia, certaines grandeurs demeurent associées à des marges d’erreur importantes.
+      </p>
+
+      <p>
+        Ces écarts suggèrent que, dans les régions de gravitation modérée, l’effet tusonien reste secondaire et ne saurait à lui seul expliquer l’ensemble des anomalies résiduelles. Ils indiquent également que d’autres effets — tels que des interactions multi-corps de plus haut ordre ou des contributions non prises en compte dans le présent modèle — pourraient devenir non négligeables dans ce régime.
+      </p>
+
+      <p>
+        <strong>Tableau 1 — Paramètres orbitaux de Reventia</strong>
+      </p>
+
+      <p class="small">
+        Comparaison entre les paramètres orbitaux de Reventia mesurés par observations astronomiques et les prédictions issues des modèles théoriques. L’introduction d’une rigidité tusonienne locale améliore significativement l’accord pour les paramètres liés à la dynamique radiale et à la précession, tout en laissant inchangés ou faiblement corrigés les paramètres hors-plan tels que l’inclinaison orbitale, l’orientation du plan orbital et leurs dérives séculaires. Ces écarts suggèrent que les effets tusoniens agissent principalement sur l’intensité des gradients gravitationnels, sans contraindre les degrés de liberté angulaires du système.
+      </p>
+
+      <!-- Image inserted where the text requests it -->
+      <figure id="tableau-1">
+        <img src="tableau1.png" alt="Tableau 1 — Paramètres orbitaux de Reventia">
+        <figcaption>
+          <strong>Tableau 1 — Paramètres orbitaux de Reventia</strong><br>
+          (Reproduction visuelle du tableau tel que fourni.)
+        </figcaption>
+      </figure>
+
+      <hr>
+
+      <h3>2.3 Implications cosmologiques</h3>
+
+      <p>
+        Au-delà des dynamiques orbitales locales, l’introduction d’une rigidité tusonienne soulève des questions quant à l’évolution gravitationnelle du système à l’échelle cosmologique. En particulier, elle modifie la manière dont les objets supermassifs influencent la courbure globale de l’espace-temps au cours de l’histoire du système.
+      </p>
+
+      <p>
+        Afin d’explorer cette question, une analyse radio du fond gravitationnel diffus a été menée, couvrant une période allant des premières époques observables jusqu’à l’époque actuelle. La Figure 2 présente l’évolution de l’influence gravitationnelle effective des trous noirs en fonction du temps cosmologique.
+      </p>
+
+      <p>
+        Les résultats indiquent que les objets supermassifs exerçaient un impact significativement plus important sur la courbure de l’espace-temps il y a environ 4,7 milliards d’années, période correspondant aux phases de formation et de structuration initiale de Reventia. L’atténuation progressive de cet impact est compatible avec l’émergence d’un régime de rigidité tusonienne stabilisant, limitant l’amplification des gradients gravitationnels au cours de l’évolution du système.
+      </p>
+
+      <p>
+        Ces observations suggèrent que la rigidité tusonienne pourrait avoir joué un rôle non seulement dynamique, mais également structurant dans l’histoire cosmologique du système 133J1E2X2.
+      </p>
+
+      <!-- Image inserted where the text requests it -->
+      <figure id="figure-2">
+        <img src="figure%202.png" alt="Figure 2 — Évolution cosmologique de la puissance gravitationnelle effective">
+        <figcaption>
+          <strong>Figure 2 — Évolution cosmologique de la puissance gravitationnelle effective</strong><br>
+          Évolution temporelle de la puissance gravitationnelle effective associée aux objets supermassifs du système 133J1E2X2, exprimée en pourcentage relatif. La courbe met en évidence un changement brutal de régime autour de 4,7 milliards d’années, époque correspondant à l’apparition de Reventia. Cette transition suggère l’émergence d’un mécanisme de régulation limitant l’amplification des gradients gravitationnels à partir de cette période.
+        </figcaption>
+      </figure>
+
+      <h3>Remarque finale de section</h3>
+
+      <p>
+        Cette section montre que, sans modifier la gravitation faible ni introduire de discontinuité artificielle, le formalisme tusonien permet de réduire de manière significative les écarts entre théorie et observation dans les régimes de champ extrême, tout en restant compatible avec les dynamiques planétaires usuelles.
+      </p>
+
+      <h2><strong>3. Discussion</strong></h2>
+
+      <p>
+        Les résultats présentés dans ce travail mettent en évidence un impact significatif des champs de Tuson sur la structure et l’intensité des champs gravitationnels au sein du système stellaire 133J1E2X2. Cette observation renforce l’hypothèse d’une unicité fondamentale entre la trame énergétique, la structure magique et l’espace-temps, dans laquelle une modification de l’une de ces composantes peut se répercuter directement sur les autres.
+      </p>
+
+      <p>
+        L’introduction d’une rigidité tusonienne activée au-delà d’un certain seuil de courbure gravitationnelle présente une analogie frappante avec les lois constitutives de certains matériaux physiques, dont les propriétés mécaniques émergent uniquement au-delà de contraintes critiques. Une telle analogie suggère que l’Univers pourrait se comporter, à grande échelle, comme un milieu possédant des propriétés effectives dépendantes de l’intensité des champs auxquels il est soumis. Cette interprétation implique l’existence d’une structure semi-homogène du vide lui-même, même dans des régions apparemment dépourvues de matière. Bien que cette hypothèse dépasse le cadre du présent article, elle pourrait constituer un point d’entrée pertinent vers une reformulation théorique des phénomènes actuellement attribués à la matière noire ou à l’énergie sombre.
+      </p>
+
+      <p>
+        Par ailleurs, l’analyse de l’évolution temporelle de la puissance gravitationnelle effective associée aux objets supermassifs suggère que la rigidité tusonienne n’a pas été active depuis l’origine de l’Univers. La transition observée autour de 4,7 milliards d’années, époque correspondant approximativement à la formation de Reventia, impose une contrainte forte sur les scénarios cosmologiques compatibles avec ce formalisme. Deux interprétations principales émergent alors : soit les modèles actuels de la création de l’Univers doivent être révisés, soit la rigidité tusonienne constitue une loi apparue secondairement, ajoutée au tissu fondamental de l’Univers à une époque donnée.
+      </p>
+
+      <p>
+        Dans ce second cas, l’hypothèse d’une intervention exogène, possiblement d’origine divine, ne peut être écartée. Compte tenu des liens étroits entre les champs de Tuson et la trame magique, il apparaît cohérent de formuler comme première hypothèse que l’émergence de la rigidité tusonienne soit associée à l’action d’Aetracta. Cette proposition demeure toutefois spéculative et nécessite un approfondissement théorique indépendant.
+      </p>
+
+      <hr>
+
+      <h2><strong>Limites de l’étude</strong></h2>
+
+      <p>
+        Malgré les améliorations apportées par l’introduction de la rigidité tusonienne, l’analyse des paramètres orbitaux de Reventia révèle que certains aspects de sa dynamique demeurent inexpliqués, en particulier les paramètres hors-plan tels que l’inclinaison orbitale, l’orientation du plan orbital et leurs dérives séculaires. Ces résultats indiquent que la rigidité tusonienne agit principalement sur les gradients gravitationnels radiaux, sans contraindre les degrés de liberté angulaires du système.
+      </p>
+
+      <p>
+        Il est néanmoins envisageable que, de la même manière que la rigidité tusonienne semble correspondre à une loi ajoutée artificiellement à l’échelle cosmologique, certains paramètres propres à Reventia aient été imposés à une échelle plus locale. Cette hypothèse rejoint la théorie des points d’ancrage, selon laquelle des conditions initiales spécifiques auraient été fixées indépendamment des lois dynamiques globales. Une telle conjecture dépasse toutefois le cadre de cette étude et devra être examinée dans des travaux ultérieurs.
+      </p>
+
+      <p>
+        Enfin, les développements théoriques présentés ici reposent sur l’hypothèse d’un milieu isotrope et isothaumique, ainsi que sur des approximations valables dans un espace homogène et infini. Les régions à forte densité magique, les conditions aux limites cosmologiques, ainsi que les environnements proches de failles dimensionnelles ne sont pas prises en compte dans ce formalisme et pourraient induire des comportements substantiellement différents.
+      </p>
+
+      <hr>
+
+      <h2><strong>Conclusion</strong></h2>
+
+      <p>
+        Ce travail démontre que les champs de Tuson exercent une influence mesurable sur la courbure gravitationnelle, renforçant l’idée d’une dimension énergétique supplémentaire intimement liée à la structure de l’espace-temps. L’introduction d’une rigidité tusonienne permet d’améliorer significativement la concordance entre les prédictions théoriques et les observations astronomiques, en particulier dans les régimes de champ gravitationnel extrême.
+      </p>
+
+      <p>
+        Toutefois, l’analyse suggère également que cette rigidité n’est pas une propriété fondamentale présente depuis l’origine de l’Univers, mais qu’elle pourrait correspondre à une loi apparue secondairement, possiblement introduite par des entités d’ordre divin. Malgré ces avancées, certains paramètres orbitaux de Reventia demeurent inexpliqués, indiquant que le modèle actuel reste incomplet.
+      </p>
+
+      <p>
+        Une extension naturelle de ce travail consisterait à appliquer une approche perturbative similaire aux champs de Tuson dans le cadre des lois géologiques et internes de Reventia. Une telle étude pourrait permettre d’identifier la localisation et la nature des hypothétiques points d’ancrage, et ainsi d’apporter des éléments de réponse supplémentaires aux questions laissées ouvertes par le présent article.
+      </p>
+
+      <div class="refs">
+        <h2>Biblioghraphie</h2>
+
+        <div class="refitem"><strong>[1]</strong> A. Virel, 4491 — <em>Développement et applications des miroirs liquides déformables en astronomie planétaire</em>.</div>
+        <div class="refitem"><strong>[2]</strong> L. Kareth, 4496 — <em>Optique à vif-argent et résolution structurelle des corps telluriques proches</em>.</div>
+
+        <div class="refitem"><strong>[3]</strong> S. Holzen, 4508 — <em>Conception et mise en orbite du premier satellite divinatoire de Wolfbahc</em>.</div>
+        <div class="refitem"><strong>[4]</strong> E. Morvain, 4512 — <em>Mesures expérimentales des champs gravitationnels extrêmes aux frontières stellaires</em>.</div>
+        <div class="refitem"><strong>[5]</strong> P. Althrenn, 4517 — <em>Analyse comparative des signaux divinatoires issus des objets supermassifs périphériques</em>.</div>
+
+        <div class="refitem"><strong>[6]</strong> T. Iskarel, 4435 — <em>Théorie des corps supermassifs limitrophes dans les systèmes stellaires ternaires</em>.</div>
+
+        <div class="refitem"><strong>[7]</strong> J. Caelorn, 4523 — <em>Cartographie complète et dynamique du système stellaire 133J1E2X2</em>.</div>
+
+        <div class="refitem"><strong>[8]</strong> M. Rethys, 4528 — <em>Conséquences physiques de la structure stellaire sur l’évolution planétaire</em>.</div>
+        <div class="refitem"><strong>[9]</strong> D. Olvann, 4532 — <em>Interactions gravitationnelles et différenciation géologique des planètes telluriques</em>.</div>
+        <div class="refitem"><strong>[10]</strong> N. Saleth, 4537 — <em>Influence des configurations stellaires complexes sur la biosphère planétaire</em>.</div>
+
+        <div class="refitem"><strong>[11]</strong> K. Vaelor, 4541 — <em>Limites des théories classiques du mouvement planétaire en champ gravitationnel extrême</em>.</div>
+
+        <div class="refitem"><strong>[12]</strong> I. Tuson, 4479 — <em>Fondements théoriques des champs arcanomagiques et formalisation énergétique</em>.</div>
+
+        <div class="refitem"><strong>[13]</strong> R. Halveth, 4548 — <em>Nouveaux paradigmes d’apprentissage magique issus de l’arcanologie moderne</em>.</div>
+      </div>
+
+    </article>
+  </main>
+</body>
+</html>
