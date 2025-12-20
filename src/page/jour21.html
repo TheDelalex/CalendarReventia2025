@@ -74,34 +74,15 @@
 		// Affichage du contenu seulement au bon jour
         body.style.display = "block";
 		avert.style.display = "none";
-		fetch('contenus.json')
-			.then(response => {
-				if (!response.ok) throw new Error('Erreur de chargement du contenu !');
-				return response.json();
-			})
-			.then(contenus => {
-				const zone = document.getElementById('contenu');
-				if (contenus[jour]) {
-					zone.innerHTML = contenus[jour];
-				} else {
-					zone.textContent = 'Aucune information pour ce jour.';
-				}
-
-				// Une fois le contenu injecté, on gère la scène d'intro + musique
-				gereOverlayEtMusique();;
-			})
-			.catch(() => {
-				zone.textContent = "Calendrier indisponible pour le moment.";
-			});
 	}
-
+  gereOverlayEtMusique();
 	// Fonction avec intro
 	function gereOverlayEtMusique() {
 		if (!overlay || !overlayBtn || !audio) return;
 		if (!jour) return;
 
 		const cleIntro = "introVue_jour" + jour;
-		audio.src = `music/jour${jour}.mp3`; // fichier audio jourX.mp3
+		audio.src = `../music/jour${jour}.mp3`; // fichier audio jourX.mp3
 
 		// Si la scène a déjà été jouée pour cette case, ne rien refaire
 		if (localStorage.getItem(cleIntro) === "1") {
@@ -112,11 +93,11 @@
 		// On est déjà sûr qu'estOuvert est true ici, donc bonne date
 
 		// Préparer visuel + son
-		overlay.style.backgroundImage = `url('Images/Cadeau/cadeau${randomInt}.jpg')`;
+		overlay.style.backgroundImage = `url('../Images/Cadeau/cadeau${randomInt}.jpg')`;
 		overlayTexte.textContent = "Bienvenue au jour numéro " + jour + " !";
 
 		// Masquer le contenu le temps de l'intro
-		zone.style.visibility = "hidden";
+		body.style.visibility = "hidden";
 		overlay.style.display = "flex";
 
 		overlayBtn.addEventListener('click', function () {
@@ -127,7 +108,7 @@
 
 			overlay.addEventListener('transitionend', () => {
 				overlay.style.display = "none";
-				zone.style.visibility = "visible";
+				body.style.visibility = "visible";
 				audio.play().catch(() => { });
 			}, { once: true }); // Important
 		})
@@ -555,7 +536,7 @@ hr{
 
       <!-- Image inserted where the text requests it -->
       <figure id="figure-1">
-        <img src="figure%201.png" alt="Figure 1 — Orbite de Trion-2">
+        <img src="../Images/Jour/jour21_fig1.png" alt="Figure 1 — Orbite de Trion-2">
         <figcaption>
           <strong>Figure 1 — Orbite de Trion-2</strong><br>
           Variation du rayon orbital normalisé de Trion-2 en fonction de la position orbitale. Les points correspondent aux mesures astronomiques issues des campagnes de l’Institut du Développement Spatial, tandis que les courbes représentent les prédictions théoriques. Les zones ombrées indiquent les régions de l’orbite où les gradients gravitationnels associés aux objets supermassifs sont maximaux. L’introduction d’une rigidité tusonienne locale permet une reproduction fidèle des observations, en réduisant significativement les écarts observés dans les modèles gravitationnels standards.
@@ -588,7 +569,7 @@ hr{
 
       <!-- Image inserted where the text requests it -->
       <figure id="tableau-1">
-        <img src="tableau1.png" alt="Tableau 1 — Paramètres orbitaux de Reventia">
+        <img src="../Images/Jour/jour21tab1.png" alt="Tableau 1 — Paramètres orbitaux de Reventia">
         <figcaption>
           <strong>Tableau 1 — Paramètres orbitaux de Reventia</strong><br>
           (Reproduction visuelle du tableau tel que fourni.)
@@ -617,7 +598,7 @@ hr{
 
       <!-- Image inserted where the text requests it -->
       <figure id="figure-2">
-        <img src="figure%202.png" alt="Figure 2 — Évolution cosmologique de la puissance gravitationnelle effective">
+        <img src="../Images/Jour/jour21_fig2.png" alt="Figure 2 — Évolution cosmologique de la puissance gravitationnelle effective">
         <figcaption>
           <strong>Figure 2 — Évolution cosmologique de la puissance gravitationnelle effective</strong><br>
           Évolution temporelle de la puissance gravitationnelle effective associée aux objets supermassifs du système 133J1E2X2, exprimée en pourcentage relatif. La courbe met en évidence un changement brutal de régime autour de 4,7 milliards d’années, époque correspondant à l’apparition de Reventia. Cette transition suggère l’émergence d’un mécanisme de régulation limitant l’amplification des gradients gravitationnels à partir de cette période.
