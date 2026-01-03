@@ -19,7 +19,8 @@ window.addEventListener("DOMContentLoaded", async function () {
 		today = new Date();
 	}
 	// Changer jour 
-	// today.setDate(20);
+	today.setDate(25);
+	today.setMonth(11); // Décembre (0-based)
 
 	const currentMonth = today.getMonth() + 1;
 	const currentDay = today.getDate();

@@ -18,7 +18,8 @@ window.addEventListener("DOMContentLoaded", async function () {
 		// En cas d’erreur API, on retombe sur l’heure locale du navigateur
 		today = new Date();
 	}
-	// today.setDate(20);
+	today.setDate(25);
+	today.setMonth(11); // Décembre (0-based)
 
 	// Vérifie si la case est "ouverte" à la bonne date
 	const estOuvert = (today.getMonth() + 1 > 12) || (today.getMonth() + 1 === 12 && today.getDate() >= jour);
@@ -102,6 +103,7 @@ window.addEventListener("DOMContentLoaded", async function () {
 		// On est déjà sûr qu'estOuvert est true ici, donc bonne date
 
 		// Préparer visuel + son
+
 		overlay.style.backgroundImage = `url('Images/Cadeau/cadeau${randomInt}.jpg')`;
 		overlayTexte.textContent = "Bienvenue au jour numéro " + jour + " !";
 
